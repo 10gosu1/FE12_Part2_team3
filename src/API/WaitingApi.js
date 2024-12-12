@@ -3,9 +3,14 @@ import axios from "axios";
 const BASE_URL = "https://fandom-k-api.vercel.app/12-3/donations";
 
 // GET 
-export const getDonation = async () => {
+export const getDonation = async (cursor = 0, pageSize = 10) => {
   try {
-    const response = await axios.get(BASE_URL);
+    const response = await axios.get(BASE_URL, {
+        params: {
+            cursor: cursor,
+            pageSize: pageSize,
+        },
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching donation:", error);
