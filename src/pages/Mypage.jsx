@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import GlobalStyle from './../styles/global';
+import Title from './../components/Title';
+import InterestIdolAdd from './../components/InterestIdolAdd';
 import close from './../assets/mypage/icon_close.svg';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import useIdolApi from './../hooks/useIdolApi';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
 
 import { FreeMode } from 'swiper/modules';
 
-import axios from 'axios';
-
 const Inner = styled.div`
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-`;
-
-const Title = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
-  color: var(--white);
-  font-weight: 700;
-  line-height: 1.8033;
 `;
 
 const InterestIdol = styled.div`
@@ -87,28 +80,12 @@ const IdolBox = styled.div`
 `;
 
 const Mypage = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [options, setOptions] = useState('pageSize=4');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `https://fandom-k-api.vercel.app/12-3/idols?${options}`,
-        );
-        setData(response.data.list);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [options]);
-
+  const {
+    data: data,
+    loading: loading,
+    error: error,
+    setOptions: setOptions,
+  } = useIdolApi('pageSize=4');
   // if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -149,6 +126,8 @@ const Mypage = () => {
           ) : (
             <div style={{ color: 'white' }}>Loading</div>
           )}
+
+          <InterestIdolAdd />
         </Inner>
       </section>
     </>
