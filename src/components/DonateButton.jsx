@@ -6,8 +6,8 @@ import styled from 'styled-components';
 const DonateButton = styled.button`
   padding: 10px 20px;
   position: relative;
-  top: 30px;
-  left: 41%;
+  top: 20px;
+  left: 50%;
   z-index: 2;
   transform: translate(-50%, -50%); /* 버튼을 중앙에 위치시킴 */
   width: 234px;
