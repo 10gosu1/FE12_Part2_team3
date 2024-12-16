@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import DonationCard from './DonationCard';  // DonationCard 컴포넌트 임포트
 import styled from 'styled-components';
+import GlobalStyle from '../styles/global';
 
 const Container = styled.div`
   display: flex;
@@ -54,12 +55,15 @@ const DonationList = () => {
   }
 
   return (
+    <>
+    <GlobalStyle />
+    <h1>후원을 기다리는 조공</h1>
     <Container>
       {donations.map((donation) => (
         // 각 donation 객체를 DonationCard에 전달
         <DonationCard key={donation.id} donation={donation} />
       ))}
-    </Container>
+    </Container></>
   );
 };
 
