@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import DonationCard from './DonationCard';  // DonationCard 컴포넌트 임포트
 import styled from 'styled-components';
 import GlobalStyle from '../styles/global';
+import DonationSlider from './DonationSlider';
 
 const Container = styled.div`
   display: flex;
@@ -10,6 +11,12 @@ const Container = styled.div`
   overflow-x: auto;  // 가로 스크롤 활성화
   white-space: nowrap;  // 카드들이 한 줄로 나열되도록
   padding: 20px;  // 상하좌우 여백 추가
+`;
+
+const Title = styled.h1`
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--white);
 `;
 
 const DonationList = () => {
@@ -57,7 +64,7 @@ const DonationList = () => {
   return (
     <>
     <GlobalStyle />
-    <h1>후원을 기다리는 조공</h1>
+    <Title>후원을 기다리는 조공</Title>
     <Container>
       {donations.map((donation) => (
         // 각 donation 객체를 DonationCard에 전달
