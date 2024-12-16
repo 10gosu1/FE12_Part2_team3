@@ -1,66 +1,35 @@
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
 
-const BASE_URL = "https://fandom-k-api.vercel.app/12-3/donations";
+const DonationList = () => {
+  const [donations, setDonations] = useState([]);
 
-// GET 
-export const getDonation = async (cursor = 0, pageSize = 10) => {
-  try {
-    const response = await axios.get(BASE_URL, {
-        params: {
-            cursor: cursor,
-            pageSize: pageSize,
-        },
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching donation:", error);
-    throw error;
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://fandom-k-api.vercel.app/12-3/donations');
+        const data = await response.json();
+        setDonations(data); // 상태에 API 데이터 저장
+      } catch (error) {
+        console.error('API 요청 실패:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      {donations.map((item) => (
+        <div key={item.id}>
+          <h2>{item.title}</h2>
+          <p>{item.subtitle}</p>
+          <p>
+            목표: {item.targetDonation}원 / 현재: {item.receivedDonation}원
+          </p>
+        </div>
+      ))}
+    </div>
+  );
 };
 
-// POST
-export const createDonation = async (donationData) => {
-  try {
-    const response = await axios.post(BASE_URL, donationData);
-    return response.data;
-  } catch (error) {
-    console.error("Error creating donation:", error);
-    throw error;
-  }
-};
-
-// PUT - 1
-export const updateDonation = async (id, donationData) => {
-  try {
-    const response = await axios.put(`${BASE_URL}/${id}`, donationData);
-    return response.data;
-  } catch (error) {
-    console.error("Error updating donation:", error);
-    throw error;
-  }
-};
-
-// PUT - 2
-export const toSponDonation = async (id, sponsorData) => {
-  try {
-    const response = await axios.put(
-      `${BASE_URL}/${id}/contribute`,
-      sponsorData,
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error sponsoring donation:", error);
-    throw error;
-  }
-};
-
-// DELETE
-export const deleteDonation = async (id) => {
-  try {
-    const response = await axios.delete(`${BASE_URL}/${id}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error deleting donation:", error);
-    throw error;
-  }
-};
+export default DonationList;
