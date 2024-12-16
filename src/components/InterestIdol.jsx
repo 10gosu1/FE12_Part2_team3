@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import IdolBox from './../components/IdolBox';
-import useIdolApi from './../hooks/useIdolApi';
 
 import 'swiper/css';
 import 'swiper/css/free-mode';
@@ -22,14 +20,7 @@ const Swpbox = styled.div`
   }
 `;
 
-const InterestIdol = () => {
-  const {
-    data: data,
-    loading: loading,
-    error: error,
-    setOptions: setOptions,
-  } = useIdolApi('pageSize=20');
-
+const InterestIdol = ({ data, loading, handleRemove }) => {
   return (
     <>
       {!loading ? (
@@ -46,7 +37,7 @@ const InterestIdol = () => {
           >
             {data.map((item) => (
               <SwiperSlide key={item.id}>
-                <IdolBox item={item} type="my" />
+                <IdolBox item={item} type="my" onClick={handleRemove} />
               </SwiperSlide>
             ))}
           </Swiper>

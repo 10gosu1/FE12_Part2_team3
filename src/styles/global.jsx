@@ -21,7 +21,7 @@ const GlobalStyle = createGlobalStyle`
         /* Breakpoints */
         --breakpoint-sm: 576px;
         --breakpoint-md: 768px;
-        --breakpoint-lg: 1024px;
+        --breakpoint-lg: 1200px;
     }
     /* Global Reset */
     html {}
@@ -142,14 +142,7 @@ const GlobalStyle = createGlobalStyle`
         color: #ffffff; 
         font-weight: bold;
         cursor: pointer;
-
-        &:hover {
-            background: var(--gray-200);
-        }
-
-        &:focus {
-            background: var(--gray-200);
-        }
+        transition: all 0.2s;
     }
 
     /* layout */
@@ -179,6 +172,11 @@ const GlobalStyle = createGlobalStyle`
         /* large screens */
         body {
             
+        }
+
+        .inner {
+            padding-left: 24px;
+            padding-right: 24px;
         }
     }
 

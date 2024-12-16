@@ -28,12 +28,17 @@ const IdolStyle = styled.div`
       top: 0;
       left: 0;
       overflow: hidden;
+      width: 100%;
+      height: 100%;
       border-radius: 999px;
       padding: 5px;
       border: 1.5px solid var(--coralpink);
       font-size: 0;
       .thum {
         position: relative;
+        width: 100%;
+        height: 0;
+        padding-top: 100%;
         > .check {
           display: flex;
           align-items: center;
@@ -43,6 +48,7 @@ const IdolStyle = styled.div`
           height: 100%;
           top: 0;
           left: 0;
+          z-index: 2;
           border-radius: 999px;
           background: linear-gradient(
             271deg,
@@ -52,6 +58,9 @@ const IdolStyle = styled.div`
           opacity: 0;
           transition: all 0.1s;
           cursor: pointer;
+          &:active {
+            transform: scale(1.5);
+          }
           &.active {
             opacity: 1;
             &.active img {
@@ -69,6 +78,9 @@ const IdolStyle = styled.div`
           width: 100%;
           height: 100%;
           object-fit: cover;
+          position: absolute;
+          top: 0;
+          left: 0;
         }
       }
     }
@@ -94,7 +106,7 @@ const IdolBox = ({ item, type, onClick, isActive }) => {
   return (
     <IdolStyle>
       {type === 'my' && (
-        <div className="close">
+        <div className="close" onClick={() => onClick(item)}>
           <img src={close} alt="삭제하기" />
         </div>
       )}
