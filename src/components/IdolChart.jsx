@@ -1,4 +1,3 @@
-// styled-components를 사용하기 위해 styled를 임포트합니다.
 import styled from 'styled-components';
 
 // 차트 내용을 감싸는 컨테이너 스타일
@@ -25,7 +24,7 @@ const Img = styled.img`
   object-fit: cover;
 `;
 
-// 차트 정보를 담는 컨테이너 스타일
+// 차트 정보를 담는 컨테이너
 const ChartInfo = styled.div`
   margin: 0 auto;
   display: flex;
@@ -45,7 +44,7 @@ const ChartGroup = styled.div`
 
 // 순위 텍스트 스타일
 const Rank = styled.p`
-  color: orange; /* $brand-orange 색상으로 대체 */
+  color: orange;
 `;
 
 // 투표 수를 표시하는 스타일
@@ -75,3 +74,5 @@ export default function IdolChart({ imgUrl, group, name, totalVotes, rank }) {
     </li>
   );
 }
+
+//test
