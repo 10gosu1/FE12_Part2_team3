@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import VoteModal from '../modal/VoteModal';
 import LackModal from '../modal/LackModal';

@@ -1,3 +1,4 @@
+import React from 'react';  
 import { Link } from 'react-router-dom';
 import logo from './../assets/header/logo.svg';
 import profile from './../assets/header/profile.png';

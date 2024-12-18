@@ -1,3 +1,4 @@
+import React from 'react';  
 import styled from 'styled-components';
 import Credit from '../components/Credit';
 import Waiting from '../components/DonationList';
