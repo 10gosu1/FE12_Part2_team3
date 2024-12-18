@@ -5,7 +5,7 @@ const GlobalStyle = createGlobalStyle`
 
 /* Root Variables */
 :root {
-        --black-200: #02000E;
+        --black-200: #02000e;
         --black-100: #181D26;
         
         --gray-300: #67666E;
@@ -144,6 +144,55 @@ const GlobalStyle = createGlobalStyle`
         cursor: pointer;
         transition: all 0.2s;
     }
+
+    /* 버튼 */
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: inherit; 
+        border:none; 
+        box-shadow:none; 
+        border-radius:0; 
+        padding:0; 
+        overflow:visible; 
+        cursor:pointer;
+    }
+    .btn {
+        width: 100%;
+        height: 42px;
+        border-radius: 3px;
+        background: linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        transition: all 0.2s;
+    }
+    /* 버튼 오버 스타일 */
+    .btn:hover {
+        opacity: 0.8;
+    }
+    /* 버튼 라인 스타일 */
+    .btn.line {
+        border: 1px solid rgba(241, 238, 249, 0.80);
+        background: rgba(255, 255, 255, 0.10);;
+    }
+    /* 버튼 큰 스타일 */
+    .btn.lg {
+        height: 48px;
+    }
+    /* 버튼 둥근 스타일 */
+    .btn.radius {
+        border-radius: 999px;
+    }
+    /* 버튼 비활성화 스타일 */
+    .btn:disabled {
+        background: var(--gray-200);
+        cursor: no-drop;
+        opacity: 1 !important;
+    }
+    
+
 
     /* layout */
 

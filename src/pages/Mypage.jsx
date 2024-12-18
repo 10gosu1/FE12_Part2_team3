@@ -75,7 +75,7 @@ const Mypage = () => {
     loading: loading,
     error: error,
     setOptions: setOptions,
-    // 전체를 불러오는 방법 강사님한테 물어보기
+    // 추가수정) pageSize 설정하고, 응답에 받은 nextCursor 활용해서 다음 페이지 데이터 요청할 때 cursor 값 설정해서 받은 데이터를 추가하는 업데이트
   } = useIdolApi('pageSize=999');
 
   // 2) gpt) 전체 데이터 중 로컬스토리지에 없는 아이템을 골라 배열을 새롭게 만들어서 저장
