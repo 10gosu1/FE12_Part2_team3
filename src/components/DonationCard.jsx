@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import DonateButton from './DonateButton';
+import CreditIcon from '../assets/waiting/credit.svg'; // SVG 파일 경로로 사용
 
 // Styled-components
 const Container = styled.div`
@@ -57,7 +58,7 @@ const Subtitle = styled.p`
   font-size: 14px;
   color: #aaa;
   text-align: left;
-  margin-top: 20dpx;
+  margin-top: 20px;
 `;
 
 const ProgressBarContainer = styled.div`
@@ -70,8 +71,21 @@ const ProgressBarContainer = styled.div`
 
 const ProgressBar = styled.div`
   height: 100%;
-  width: ${(props) => props.percentage}%;
+  width: ${({ $percentage }) => $percentage}%;
   background: #ff4d4d;
+`;
+
+const GoalContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px; /* 아이콘과 텍스트 사이 간격 */
+  margin-top: 10px;
+
+  img {
+    width: 20px; /* 아이콘 크기 */
+    height: 20px;
+  }
 `;
 
 const DonationCard = ({ donation }) => {
@@ -88,15 +102,20 @@ const DonationCard = ({ donation }) => {
         <Title>{donation.title}</Title>
         <ProgressBarContainer>
           <ProgressBar
-            percentage={ (donation.receivedDonations / donation.targetDonation) * 100 }
+            $percentage={(donation.receivedDonations / donation.targetDonation) * 100}
           />
         </ProgressBarContainer>
-        <p>
-          목표: {donation.targetDonation.toLocaleString()} / 현재: {donation.receivedDonations.toLocaleString()}
-        </p>
+        <GoalContainer>
+          <img src={CreditIcon} alt="Credit Icon" />
+          <span>
+            {donation.targetDonation.toLocaleString()} / 현재:{' '}
+            {donation.receivedDonations.toLocaleString()}
+          </span>
+        </GoalContainer>
       </Content>
     </Card>
   );
 };
 
 export default DonationCard;
+
