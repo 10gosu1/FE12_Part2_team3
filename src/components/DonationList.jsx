@@ -45,11 +45,3 @@ const DonationList = () => {
 };
 
 export default DonationList;
-
-
-
-
-
-
-
-

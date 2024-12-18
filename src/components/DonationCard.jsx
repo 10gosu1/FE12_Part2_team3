@@ -10,14 +10,15 @@ const Card = styled.div`
   height: 400px;
   background: #222;
   border-radius: 8px;
-  overflow: hidden;
   color: white;
+  z-index: 1;  // 카드의 z-index가 낮아야 모달이 카드 위로 떠야 한다
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px;
 `;
 
 const Overlay = styled.div`
@@ -27,7 +28,7 @@ const Overlay = styled.div`
   width: 100%;
   height: 40%;
   background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  z-index: 1;
+  z-index: 2;
 `;
 
 const Content = styled.div`
@@ -35,7 +36,7 @@ const Content = styled.div`
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
+  z-index: 3;  // 버튼과 텍스트는 모달보다 아래에 있어야 한다
   width: 100%;
   padding-bottom: 20px;
   text-align: center;
@@ -114,6 +115,7 @@ const DonationCard = ({ donation }) => {
         </Content>
       </Card>
 
+      {/* 모달을 열 때만 렌더링 */}
       {isModalOpen && (
         <DonationModal donation={donation} onClose={handleCloseModal} /> // 모달 표시
       )}
@@ -122,11 +124,4 @@ const DonationCard = ({ donation }) => {
 };
 
 export default DonationCard;
-
-
-
-
-
-
-
 

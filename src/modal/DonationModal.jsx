@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import styled from 'styled-components';
 import CreditIcon from '../assets/waiting/credit.svg';
+import CloseIcon from '../assets/mypage/icon_close.svg'; 
 import DonateButton from '../components/DonateButton';
 import GlobalStyle from '../styles/global';
 
@@ -11,11 +12,11 @@ const ModalOverlay = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 2000; /* Swiper보다 높은 z-index */
+  z-index: 2000;
   display: flex;
   justify-content: center;
   align-items: center;
-  pointer-events: all; /* 모달을 클릭할 수 있도록 */
+  pointer-events: all;
 `;
 
 const ModalContainer = styled.div`
@@ -23,15 +24,18 @@ const ModalContainer = styled.div`
   padding: 20px;
   border-radius: 8px;
   width: 327px;
+  max-width: 100%;
   height: 509px;
+  max-height: 90vh;  /* 화면 크기에 따라 모달 크기 조정 */
   color: var(--white);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   position: relative;
-  z-index: 3000; /* 모달이 Swiper 위에 위치하도록 */ -> 멘토님 질문 : swiper 랑 모달창이랑 독립적으로 관리하는법 + 모달창이 잘려서 보이는 현상 해결방법
+  z-index: 3000;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: auto;  /* 스크롤 가능하도록 설정 */
 `;
 
 const ModalHeader = styled.h2`
@@ -42,6 +46,10 @@ const ModalHeader = styled.h2`
 const ModalContent = styled.div`
   margin-top: 20px;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
 
 const Image = styled.img`
@@ -66,6 +74,8 @@ const InputContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 20px;
+  position: relative;
+  
   input {
     width: 100%;
     padding: 10px;
@@ -76,9 +86,18 @@ const InputContainer = styled.div`
     background-color: #272F3D;
     color: var(--white);
   }
+
   img {
+    position: absolute;
+    right: 10px;
     width: 20px;
     height: 20px;
+  }
+
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `;
 
@@ -88,9 +107,11 @@ const CloseButton = styled.button`
   right: 10px;
   background: none;
   border: none;
-  color: var(--white);
-  font-size: 20px;
   cursor: pointer;
+  img {
+    width: 20px;
+    height: 20px;
+  }
 `;
 
 const DonationModal = ({ donation, onClose }) => {
@@ -108,7 +129,9 @@ const DonationModal = ({ donation, onClose }) => {
       <GlobalStyle />
       <ModalOverlay onClick={onClose}>
         <ModalContainer onClick={(e) => e.stopPropagation()}>
-          <CloseButton onClick={onClose}>&times;</CloseButton>
+          <CloseButton onClick={onClose}>
+            <img src={CloseIcon} alt="Close" />
+          </CloseButton>
           <ModalHeader>후원하기</ModalHeader>  
           <ModalContent>
             <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
@@ -124,7 +147,8 @@ const DonationModal = ({ donation, onClose }) => {
               />
               <img src={CreditIcon} alt="Credit Icon" />
             </InputContainer>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+
+            <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
               <DonateButton label="후원하기" onClick={handleDonate} />
             </div>
           </ModalContent>

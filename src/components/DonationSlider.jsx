@@ -31,7 +31,7 @@ const DonationSlider = ({ donations }) => {
       <Swiper
         modules={[Navigation]} // 네비게이션 모듈 사용
         spaceBetween={20} // 카드 간격
-        slidesPerView={4} // 한 번에 보이는 카드 수
+        slidesPerView={4} // 한 번에 보이는 카드 수 
         navigation // 네비게이션 버튼 활성화
         slidesPerGroup={1} // 한 번에 이동하는 카드 수
         loop={false} // 무한 루프 비활성화
@@ -47,14 +47,3 @@ const DonationSlider = ({ donations }) => {
 };
 
 export default DonationSlider;
-
-
-
-
-
-
-
-
-
-
-
