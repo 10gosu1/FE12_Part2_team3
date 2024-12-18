@@ -1,15 +1,8 @@
-// DonationCard.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import DonationModal from '../modal/DonationModal'; // 모달 컴포넌트
 import DonateButton from './DonateButton';
-import CreditIcon from '../assets/waiting/credit.svg'; // SVG 파일 경로로 사용
-
-// Styled-components
-const Container = styled.div`
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-`;
+import CreditIcon from '../assets/waiting/credit.svg';
 
 const Card = styled.div`
   position: relative;
@@ -32,9 +25,9 @@ const Overlay = styled.div`
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 40%; /* 아래쪽 40%를 오버레이로 차지 */
-  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); /* 검정색에서 투명으로 변하는 그라데이션 */
-  z-index: 1; /* 이미지 위에 오버레이가 표시되도록 설정 */
+  height: 40%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  z-index: 1;
 `;
 
 const Content = styled.div`
@@ -42,10 +35,10 @@ const Content = styled.div`
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2; /* Content는 오버레이 위에 표시되어야 함 */
-  width: 100%; /* Content가 카드의 너비에 맞게 조정 */
-  padding-bottom: 20px; /* 버튼과 텍스트 사이의 여백 */
-  text-align: center; /* 내용 중앙 정렬 */
+  z-index: 2;
+  width: 100%;
+  padding-bottom: 20px;
+  text-align: center;
 `;
 
 const Title = styled.h3`
@@ -79,43 +72,61 @@ const GoalContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 8px; /* 아이콘과 텍스트 사이 간격 */
+  gap: 8px;
   margin-top: 10px;
 
   img {
-    width: 20px; /* 아이콘 크기 */
+    width: 20px;
     height: 20px;
   }
 `;
 
 const DonationCard = ({ donation }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+
+  const handleOpenModal = () => setIsModalOpen(true);  // 모달 열기
+  const handleCloseModal = () => setIsModalOpen(false);  // 모달 닫기
+
   return (
-    <Card key={donation.id}>
-      <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
-      <Overlay />
-      <Content>
-        <DonateButton
-          label="후원하기"
-          onClick={() => alert(`${donation.title}에 후원합니다.`)}
-        />
-        <Subtitle>{donation.subtitle}</Subtitle>
-        <Title>{donation.title}</Title>
-        <ProgressBarContainer>
-          <ProgressBar
-            $percentage={(donation.receivedDonations / donation.targetDonation) * 100}
+    <>
+      <Card key={donation.id}>
+        <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
+        <Overlay />
+        <Content>
+          <DonateButton
+            label="후원하기"
+            onClick={handleOpenModal} // 후원하기 버튼 클릭 시 모달 열기
           />
-        </ProgressBarContainer>
-        <GoalContainer>
-          <img src={CreditIcon} alt="Credit Icon" />
-          <span>
-            {donation.targetDonation.toLocaleString()} / 현재:{' '}
-            {donation.receivedDonations.toLocaleString()}
-          </span>
-        </GoalContainer>
-      </Content>
-    </Card>
+          <Subtitle>{donation.subtitle}</Subtitle>
+          <Title>{donation.title}</Title>
+          <ProgressBarContainer>
+            <ProgressBar
+              $percentage={(donation.receivedDonations / donation.targetDonation) * 100}
+            />
+          </ProgressBarContainer>
+          <GoalContainer>
+            <img src={CreditIcon} alt="Credit Icon" />
+            <span>
+              {donation.targetDonation.toLocaleString()} / 현재:{' '}
+              {donation.receivedDonations.toLocaleString()}
+            </span>
+          </GoalContainer>
+        </Content>
+      </Card>
+
+      {isModalOpen && (
+        <DonationModal donation={donation} onClose={handleCloseModal} /> // 모달 표시
+      )}
+    </>
   );
 };
 
 export default DonationCard;
+
+
+
+
+
+
+
 
