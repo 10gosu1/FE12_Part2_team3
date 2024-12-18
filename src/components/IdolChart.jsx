@@ -1,78 +1,103 @@
+
+import React from 'react';
 import styled from 'styled-components';
 
-// 차트 내용을 감싸는 컨테이너 스타일
-const ChartContents = styled.div`
+const ChartList = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 10px;
-  padding-top: 24px;
-  width: 588px;
-  height: 70px;
+  flex-direction: column;
+  gap: 0px;
+  width: 100%;
 `;
 
-// 이미지 스타일
-const Img = styled.img`
-  width: 60px;
-  height: 60px;
-  position: relative;
-  top: 5px;
-  left: 5px;
-  gap: 8px;
-  border-radius: 40px;
-  opacity: 0;
-  object-fit: cover;
-`;
-
-// 차트 정보를 담는 컨테이너
-const ChartInfo = styled.div`
-  margin: 0 auto;
+const ChartItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-grow: 1;
-  gap: 10px;
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 16px;
+  box-sizing: border-box;
 `;
 
-// 그룹 정보를 담는 스타일
-const ChartGroup = styled.div`
+const Profile = styled.div`
   display: flex;
-  gap: 5px;
-  justify-content: space-around;
   align-items: center;
+  gap: 12px;
 `;
 
-// 순위 텍스트 스타일
-const Rank = styled.p`
-  color: orange;
+const ProfileImageContainer = styled.div`
+  position: relative;
+  width: 60px;
+  height: 60px;
 `;
 
-// 투표 수를 표시하는 스타일
-const ChartVoteNum = styled.div`
-  display: flex;
-  justify-content: flex-end;
+const ProfileImageRing = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #f96d69;
+  border-radius: 50%;
+  box-sizing: border-box;
+`;
+
+const ProfileImage = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+`;
+
+const Rank = styled.span`
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #f96d69;
+  margin-right: 8px;
+`;
+
+const Name = styled.span`
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: rgba(255, 255, 255, 0.87);
+`;
+
+const Votes = styled.span`
+  font-family: 'Pretendard', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
   color: rgba(255, 255, 255, 0.6);
 `;
 
-// IdolChart 컴포넌트 정의
-export default function IdolChart({ imgUrl, group, name, totalVotes, rank }) {
+const IdolChart = ({ chartData }) => {
   return (
-    <li>
-      <ChartContents>
-        <Img src={imgUrl} alt={`${group}-이미지`} />
-        <ChartInfo>
-          <ChartGroup>
-            <Rank>{rank}</Rank>
-            <p>{group}</p>
-            <p>{name}</p>
-          </ChartGroup>
-          <ChartVoteNum>
-            <p>{totalVotes}표</p>
-          </ChartVoteNum>
-        </ChartInfo>
-      </ChartContents>
-    </li>
+    <ChartList>
+      {chartData.map((idol, index) => (
+        <React.Fragment key={index}>
+          <ChartItem>
+            <Profile>
+              <ProfileImageContainer>
+                <ProfileImage src={idol.image} alt={idol.name} />
+                <ProfileImageRing />
+              </ProfileImageContainer>
+              <Rank>{idol.rank}</Rank>
+              <Name>{idol.name}</Name>
+            </Profile>
+            <Votes>{idol.votes}표</Votes>
+          </ChartItem>
+          {index < chartData.length - 1 && <Separator />}
+        </React.Fragment>
+      ))}
+    </ChartList>
   );
-}
+};
 
-//test
+export default IdolChart;
+
