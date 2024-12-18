@@ -1,3 +1,4 @@
+
 import React from 'react';
 import styled from 'styled-components';
 
@@ -99,3 +100,4 @@ const IdolChart = ({ chartData }) => {
 };
 
 export default IdolChart;
+
