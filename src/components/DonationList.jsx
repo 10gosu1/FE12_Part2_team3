@@ -18,7 +18,9 @@ const DonationList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://fandom-k-api.vercel.app/12-3/donations');
+        const response = await fetch(
+          'https://fandom-k-api.vercel.app/12-3/donations',
+        );
         if (!response.ok) throw new Error('데이터를 불러오는 데 실패했습니다.');
         const data = await response.json();
         setDonations(data.list || []);
@@ -45,11 +47,3 @@ const DonationList = () => {
 };
 
 export default DonationList;
-
-
-
-
-
-
-
-
