@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import logo from './../assets/header/logo.svg';
 import landing from './../assets/landing/landing.png';
 import phone1 from './../assets/landing/phone_1.png';
@@ -11,6 +11,7 @@ import bg1 from './../assets/landing/bg_1.png';
 import bg2 from './../assets/landing/bg_2.png';
 import bg3 from './../assets/landing/bg_3.png';
 import styled from 'styled-components';
+import { CreditContextAction } from './../App';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -155,11 +156,13 @@ const LandingListStyle = styled.ul`
 
 const Landing = () => {
   const navigate = useNavigate();
-
+  const { setMyCredit } = useContext(CreditContextAction);
   const handleButtonClick = (e) => {
     e.preventDefault();
     localStorage.clear();
     navigate('/list');
+    // 크레딧 0 으로 초기화
+    setMyCredit(0);
   };
 
   useEffect(() => {
