@@ -1,5 +1,8 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useEffect } from 'react';
 import logo from './../assets/header/logo.svg';
 import landing from './../assets/landing/landing.png';
 import phone1 from './../assets/landing/phone_1.png';
@@ -9,6 +12,8 @@ import bg1 from './../assets/landing/bg_1.png';
 import bg2 from './../assets/landing/bg_2.png';
 import bg3 from './../assets/landing/bg_3.png';
 import styled from 'styled-components';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const LandingTopStyle = styled.div`
   display: flex;
@@ -59,6 +64,7 @@ const LandingListStyle = styled.ul`
     transform: translateX(-50%);
     z-index: -1;
     width: 187px;
+    width: 15.5833dvh;
     height: calc(100% - 500px);
     background: linear-gradient(
       180deg,
@@ -72,8 +78,11 @@ const LandingListStyle = styled.ul`
   }
   > li {
     position: relative;
-    padding-top: 170px;
-    padding-bottom: 193px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100dvh;
     > .tit {
       margin-bottom: 60px;
       text-align: center;
@@ -90,22 +99,25 @@ const LandingListStyle = styled.ul`
       }
     }
     > .phone {
-      width: 320px;
-      margin: 0 auto;
+      display: flex;
+      justify-content: center;
       > img {
-        width: 100%;
+        height: 57.75dvh;
+        max-height: 693px;
       }
     }
   }
   > li::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: -1;
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 100dvh;
+    height: 100dvh;
+    opacity: 1;
   }
   > li:nth-child(1)::after {
     background:
@@ -151,20 +163,71 @@ const Landing = () => {
     navigate('/list');
   };
 
+  useEffect(() => {
+    const gsapLogo = gsap.timeline();
+    gsapLogo.from('.landingtop .gsap_logo', {
+      y: -100,
+      opacity: 0,
+      duration: 1,
+      ease: 'Stepped.in',
+      stagger: 0.4,
+    });
+    const gsapThum = gsap.timeline();
+    gsapThum.from('.landingtop .gsap_thum', {
+      opacity: 0,
+      duration: 0.7,
+      delay: 1,
+      ease: 'Stepped.in',
+      stagger: 0.4,
+    });
+
+    document.querySelectorAll('.landing_list > li').forEach((li) => {
+      const images = li.querySelectorAll('img');
+      const texts = li.querySelectorAll('.tit');
+      gsap.from(images, {
+        scrollTrigger: {
+          trigger: li,
+          start: '15% 50%',
+          end: '50% 50%',
+          scrub: true,
+        },
+        y: 300,
+        opacity: 0,
+        scale: 0.6,
+        ease: 'Stepped.inOut',
+        stagger: 0.1,
+      });
+
+      gsap.from(texts, {
+        scrollTrigger: {
+          trigger: li,
+          start: '0% 50%',
+          end: '20% 50%',
+          scrub: true,
+        },
+        y: -100,
+        opacity: 0,
+        scale: 0.5,
+        ease: 'Stepped.inOut',
+        stagger: 0.01,
+      });
+    });
+  }, []);
+
   return (
     <>
-      <LandingTopStyle>
-        <div className="tit">
+      <LandingTopStyle className="landingtop">
+        <div className="tit gsap_logo">
           내가 좋아하는 아이돌을
           <br />
           가장 <span>쉽게 덕질</span> 하는 방법
         </div>
-        <div className="logo">
+        <div className="logo gsap_logo">
           <Link to="/list">
             <img src={logo} alt="" />
           </Link>
         </div>
-        <div className="thum">
+        <div className="thum gsap_thum">
           <img src={landing} alt="" />
         </div>
         <button className="btn" onClick={handleButtonClick}>
@@ -172,7 +235,7 @@ const Landing = () => {
         </button>
       </LandingTopStyle>
       <div className="landing_btm">
-        <LandingListStyle>
+        <LandingListStyle className="landing_list">
           <li>
             <div className="tit">
               <b>후원하기</b>

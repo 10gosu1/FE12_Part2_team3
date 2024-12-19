@@ -195,7 +195,9 @@ const GlobalStyle = createGlobalStyle`
 
 
     /* layout */
-
+    #root {
+        padding-bottom: 100px;
+    }
     .inner {
         max-width: 1200px;
         width: 100%;
