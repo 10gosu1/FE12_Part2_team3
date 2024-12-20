@@ -27,6 +27,25 @@ let HeaderStyle = styled.header`
       height: 32px;
     }
   }
+  @media (max-width: 1200px) {
+    > .inner {
+      > .logo {
+        img {
+          height: 23px;
+        }
+      }
+    }
+  }
+  @media (max-width: 743px) {
+    height: 50px;
+    > .inner {
+      > .logo {
+        img {
+          height: 20px;
+        }
+      }
+    }
+  }
 `;
 
 const Header = () => {

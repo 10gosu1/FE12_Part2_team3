@@ -20,7 +20,7 @@ const GlobalStyle = createGlobalStyle`
         
         /* Breakpoints */
         --breakpoint-sm: 576px;
-        --breakpoint-md: 768px;
+        --breakpoint-md: 743px;
         --breakpoint-lg: 1200px;
     }
     /* Global Reset */
@@ -204,22 +204,7 @@ const GlobalStyle = createGlobalStyle`
         margin: 0 auto;
     }
 
-    /* Media Queries for Responsive Design */
-    @media (max-width: var(--breakpoint-sm)) {
-        /* small screens */
-        body {
-            
-        }
-    }
-
-    @media (max-width: var(--breakpoint-md)) {
-        /* medium screens */
-        body {
-            
-        }
-    }
-
-    @media (max-width: var(--breakpoint-lg)) {
+    @media (max-width: 1200Px) {
         /* large screens */
         body {
             
@@ -230,6 +215,15 @@ const GlobalStyle = createGlobalStyle`
             padding-right: 24px;
         }
     }
+
+    @media (max-width: 743px) {
+        /* medium screens */
+        body {
+            padding-top: 50px;
+        }
+    }
+
+    
 
 `;
 

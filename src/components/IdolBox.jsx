@@ -32,7 +32,7 @@ const IdolStyle = styled.div`
       height: 100%;
       border-radius: 999px;
       padding: 5px;
-      border: 1.5px solid var(--coralpink);
+      border: 2px solid var(--coralpink);
       font-size: 0;
       .thum {
         position: relative;
@@ -97,7 +97,19 @@ const IdolStyle = styled.div`
     > .group {
       margin-top: 2px;
       color: rgba(255, 255, 255, 0.6);
-      font-size: 16px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+  }
+
+  @media (max-width: 1200px) {
+  }
+
+  @media (max-width: 743px) {
+    > .close {
+      > img {
+        width: 22px;
+      }
     }
   }
 `;
