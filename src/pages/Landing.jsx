@@ -55,6 +55,63 @@ const LandingTopStyle = styled.div`
     width: 447px;
     margin: auto auto 120px;
   }
+
+  @media (max-width: 1200px) {
+    max-height: none;
+    height: auto;
+    padding-top: clamp(0px, 5.5dvh, 40px);
+    > .tit {
+      margin-bottom: 32px;
+      font-size: 20px;
+    }
+    > .logo {
+      margin-bottom: 40px;
+      img {
+        max-height: none;
+        height: 62px;
+      }
+    }
+    > .thum {
+      position: static;
+      margin-bottom: 130px;
+      transform: translateX(0);
+      text-align: center;
+      img {
+        max-height: none;
+        height: 600px;
+        opacity: 1;
+      }
+    }
+    > .btn {
+      width: 447px;
+      margin: 0 auto 120px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    > .tit {
+      margin-bottom: 20px;
+    }
+    > .logo {
+      margin-bottom: 27px;
+      img {
+        height: 45px;
+      }
+    }
+    > .thum {
+      overflow: hidden;
+      margin-bottom: 93px;
+      display: flex;
+      justify-content: center;
+      img {
+        height: 330px;
+      }
+    }
+    > .btn {
+      width: 230px;
+      margin: 0 auto 100px;
+    }
+  }
 `;
 
 const LandingListStyle = styled.ul`
@@ -80,6 +137,7 @@ const LandingListStyle = styled.ul`
     opacity: 0.5;
   }
   > li {
+    overflow: hidden;
     position: relative;
     display: flex;
     align-items: center;
@@ -155,6 +213,44 @@ const LandingListStyle = styled.ul`
       ),
       url(${bg3}) no-repeat 50% 50% / cover;
   }
+
+  @media (max-width: 1200px) {
+    &::after {
+      max-width: none;
+      width: 117px;
+    }
+    > li {
+      padding: 85px 0 105px;
+      height: auto;
+      > .tit {
+        margin-bottom: 47px;
+        > p {
+          font-size: 20px;
+        }
+      }
+      > .phone {
+        > img {
+          height: 433px;
+          max-height: none;
+        }
+      }
+    }
+    > li::after {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    > li {
+      padding: 85px 0;
+      > .phone {
+        > img {
+          height: 520px;
+        }
+      }
+    }
+  }
 `;
 
 const Landing = () => {
@@ -192,8 +288,8 @@ const Landing = () => {
       gsap.from(images, {
         scrollTrigger: {
           trigger: li,
-          start: '15% 50%',
-          end: '50% 50%',
+          start: '15% 60%',
+          end: '50% 60%',
           scrub: true,
         },
         y: 200,
@@ -206,8 +302,8 @@ const Landing = () => {
       gsap.from(texts, {
         scrollTrigger: {
           trigger: li,
-          start: '0% 50%',
-          end: '20% 50%',
+          start: '0% 60%',
+          end: '20% 60%',
           scrub: true,
         },
         y: -100,
