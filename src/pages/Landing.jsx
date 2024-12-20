@@ -19,8 +19,9 @@ const LandingTopStyle = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 1000px;
-  padding-top: 60px;
+  max-height: 1000px;
+  height: 100dvh;
+  padding-top: clamp(0px, 5.5dvh, 60px);
   margin: 0 auto;
   > .tit {
     margin-bottom: 30px;
@@ -34,7 +35,8 @@ const LandingTopStyle = styled.div`
   > .logo {
     text-align: center;
     img {
-      height: 97px;
+      max-height: 97px;
+      height: 9dvh;
     }
   }
   > .thum {
@@ -44,7 +46,8 @@ const LandingTopStyle = styled.div`
     z-index: -1;
     transform: translateX(-50%);
     img {
-      width: 932px;
+      max-height: 780px;
+      height: 72.222dvh;
       opacity: 0.7;
     }
   }
@@ -63,7 +66,7 @@ const LandingListStyle = styled.ul`
     top: 310px;
     transform: translateX(-50%);
     z-index: -1;
-    width: 187px;
+    max-width: 187px;
     width: 15.5833dvh;
     height: calc(100% - 500px);
     background: linear-gradient(
@@ -193,11 +196,11 @@ const Landing = () => {
           end: '50% 50%',
           scrub: true,
         },
-        y: 300,
+        y: 200,
         opacity: 0,
         scale: 0.6,
-        ease: 'Stepped.inOut',
-        stagger: 0.1,
+        ease: 'Power2.inOut',
+        stagger: 0.2,
       });
 
       gsap.from(texts, {
@@ -209,9 +212,9 @@ const Landing = () => {
         },
         y: -100,
         opacity: 0,
-        scale: 0.5,
-        ease: 'Stepped.inOut',
-        stagger: 0.01,
+        scale: 0.6,
+        ease: 'Power2.inOut',
+        stagger: 0.2,
       });
     });
   }, []);
