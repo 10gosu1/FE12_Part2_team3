@@ -7,6 +7,16 @@ const StyledTitle = styled.div`
   color: var(--white);
   font-weight: 700;
   line-height: 1.8033;
+  @media (max-width: 1200px) {
+    margin-bottom: 25px;
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  @media (max-width: 743px) {
+    margin-bottom: 17px;
+    font-size: 16px;
+    line-height: 1.625;
+  }
 `;
 
 const Title = ({ children }) => {

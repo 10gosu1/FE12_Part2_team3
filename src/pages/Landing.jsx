@@ -88,7 +88,7 @@ const LandingTopStyle = styled.div`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 743px) {
     > .tit {
       margin-bottom: 20px;
     }
@@ -241,7 +241,7 @@ const LandingListStyle = styled.ul`
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 743px) {
     > li {
       padding: 85px 0;
       > .phone {

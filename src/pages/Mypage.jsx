@@ -7,6 +7,9 @@ import styled from 'styled-components';
 
 const MypageSection = styled.section`
   margin-top: 78px;
+  @media (max-width: 1200px) {
+    margin-top: 14px;
+  }
 `;
 
 const Mypage = () => {

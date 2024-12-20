@@ -7,14 +7,13 @@ import { useState, useContext } from 'react';
 import { CreditContextValue } from './../App';
 
 let MyCreditStyle = styled.div`
-  display: flex;
-  align-items: center;
+  position: relative;
+  margin-top: 50px;
   margin-bottom: 50px;
-  padding: 30px 78px;
+  padding: 30px 78px 40px;
   border: 1px solid rgba(241, 238, 249, 0.8);
   border-radius: 8px;
   > .content {
-    margin-right: auto;
     > .tit {
       margin-bottom: 14px;
       font-size: 16px;
@@ -33,12 +32,45 @@ let MyCreditStyle = styled.div`
     }
   }
   > .credit_toggle {
+    position: absolute;
+    right: 78px;
+    top: 50%;
+    transform: translateY(-50%);
     color: #f96d69;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.8px;
     line-height: 26px;
     cursor: pointer;
+  }
+  @media (max-width: 1200px) {
+    margin-top: 0;
+    margin-bottom: 54px;
+    padding: 35px 64px;
+    > .credit_toggle {
+      right: 64px;
+    }
+  }
+  @media (max-width: 743px) {
+    margin-top: 15px;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: var(--black-200);
+    > .content {
+      > .tit {
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+      > .credit {
+        font-size: 20px;
+      }
+    }
+    > .credit_toggle {
+      right: 20px;
+      font-size: 13px;
+      line-height: 2;
+      letter-spacing: 0.65px;
+    }
   }
 `;
 

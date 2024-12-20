@@ -18,6 +18,22 @@ const Swpbox = styled.div`
       width: 100px;
     }
   }
+
+  @media (max-width: 1200px) {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+  }
+
+  @media (max-width: 743px) {
+    width: calc(100% + 48px);
+    margin-left: -24px;
+    > .interestIdol_swp {
+      padding-left: 38px;
+      .swiper-slide {
+        width: 70px;
+      }
+    }
+  }
 `;
 
 const InterestIdol = ({ data, loading, handleRemove }) => {
@@ -27,10 +43,15 @@ const InterestIdol = ({ data, loading, handleRemove }) => {
         <Swpbox>
           <Swiper
             slidesPerView={'auto'}
-            spaceBetween={22}
+            spaceBetween={32}
             freeMode={{
               enabled: true,
               momentumRatio: 0.1,
+            }}
+            breakpoints={{
+              743: {
+                spaceBetween: 22,
+              },
             }}
             modules={[FreeMode]}
             className="interestIdol_swp"

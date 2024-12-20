@@ -22,7 +22,7 @@ const Swpbox = styled.div`
     width: 30px;
     height: 135px;
     border-radius: 4px;
-    background-color: rgba(27, 27, 27, 0.6);
+    background-color: rgba(27, 27, 27, 0.8);
     position: absolute;
     right: calc(100% + 32px);
     top: 50%;
@@ -30,7 +30,7 @@ const Swpbox = styled.div`
     cursor: pointer;
   }
   > .swp_btn.next_btn {
-    right: none;
+    right: auto;
     left: calc(100% + 32px);
   }
   > .swp_btn.swiper-button-disabled {
@@ -44,6 +44,34 @@ const Swpbox = styled.div`
     img {
       width: 100%;
       height: auto;
+    }
+  }
+  @media (max-width: 1200px) {
+    > .swp_btn.prev_btn {
+      left: 0;
+      right: auto;
+    }
+    > .swp_btn.next_btn {
+      left: auto;
+      right: 0;
+    }
+    > .interestIdolAdd_swp {
+      width: 84%;
+      height: 52.5vw;
+      margin: 32px auto 0;
+    }
+  }
+  @media (max-width: 743px) {
+    > .swp_btn.prev_btn {
+      display: none;
+    }
+    > .swp_btn.next_btn {
+      display: none;
+    }
+    > .interestIdolAdd_swp {
+      width: 100%;
+      height: 87vw;
+      margin: 0 auto;
     }
   }
 `;
@@ -73,6 +101,9 @@ const AddBtn = styled.button`
   > img {
     margin-right: 8px;
   }
+  @media (max-width: 743px) {
+    margin: 24px auto 0;
+  }
 `;
 
 const InterestIdolAdd = ({
@@ -96,16 +127,28 @@ const InterestIdolAdd = ({
             <img src={nextIcon} alt="다음으로" />
           </div>
           <Swiper
-            slidesPerView={8}
-            spaceBetween={24}
+            slidesPerView={3}
+            spaceBetween={17}
+            grid={{
+              rows: 2,
+            }}
+            breakpoints={{
+              743: {
+                slidesPerView: 4,
+                spaceBetween: 24,
+                grid: { rows: 2 },
+              },
+              1200: {
+                slidesPerView: 8,
+                spaceBetween: 24,
+                grid: { rows: 2 },
+              },
+            }}
             onInit={(swiper) => {
               swiper.params.navigation.prevEl = prevRef.current;
               swiper.params.navigation.nextEl = nextRef.current;
               swiper.navigation.init();
               swiper.navigation.update();
-            }}
-            grid={{
-              rows: 2,
             }}
             modules={[Grid, Navigation]}
             className="interestIdolAdd_swp"
