@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import logo from './../assets/header/logo.svg';
 import landing from './../assets/landing/landing.png';
 import phone1 from './../assets/landing/phone_1.png';
