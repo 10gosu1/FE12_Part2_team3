@@ -57,7 +57,7 @@ const GlobalStyle = createGlobalStyle`
         display: block
     }
 
-    ul,dl,dt,dd {
+    ul,dl,dt,dd,li,ol {
         margin: 0;
         padding: 0;
         list-style: none
