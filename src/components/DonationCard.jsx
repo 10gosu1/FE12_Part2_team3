@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import DonationModal from '../modal/DonationModal'; // 모달 컴포넌트
+import DonationModal from '../modal/DonationModal';
 import DonateButton from './DonateButton';
 import CreditIcon from '../assets/waiting/credit.svg';
 
@@ -10,7 +10,6 @@ const Card = styled.div`
   height: 400px;
   background: #222;
   border-radius: 8px;
-  overflow: hidden;
   color: white;
 `;
 
@@ -18,6 +17,7 @@ const Image = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 8px;
 `;
 
 const Overlay = styled.div`
@@ -27,7 +27,6 @@ const Overlay = styled.div`
   width: 100%;
   height: 40%;
   background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  z-index: 1;
 `;
 
 const Content = styled.div`
@@ -35,9 +34,7 @@ const Content = styled.div`
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 2;
   width: 100%;
-  padding-bottom: 20px;
   text-align: center;
 `;
 
@@ -71,7 +68,6 @@ const ProgressBar = styled.div`
 const GoalContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 8px;
   margin-top: 10px;
 
@@ -82,21 +78,18 @@ const GoalContainer = styled.div`
 `;
 
 const DonationCard = ({ donation }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = () => setIsModalOpen(true);  // 모달 열기
-  const handleCloseModal = () => setIsModalOpen(false);  // 모달 닫기
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
 
   return (
     <>
-      <Card key={donation.id}>
+      <Card>
         <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
         <Overlay />
         <Content>
-          <DonateButton
-            label="후원하기"
-            onClick={handleOpenModal} // 후원하기 버튼 클릭 시 모달 열기
-          />
+          <DonateButton label="후원하기" onClick={handleOpenModal} />
           <Subtitle>{donation.subtitle}</Subtitle>
           <Title>{donation.title}</Title>
           <ProgressBarContainer>
@@ -113,20 +106,11 @@ const DonationCard = ({ donation }) => {
           </GoalContainer>
         </Content>
       </Card>
-
       {isModalOpen && (
-        <DonationModal donation={donation} onClose={handleCloseModal} /> // 모달 표시
+        <DonationModal donation={donation} onClose={handleCloseModal} />
       )}
     </>
   );
 };
 
 export default DonationCard;
-
-
-
-
-
-
-
-
