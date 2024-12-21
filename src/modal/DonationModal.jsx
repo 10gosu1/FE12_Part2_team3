@@ -1,160 +1,146 @@
-import React, { useState } from 'react'; 
+import React from 'react';
+import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import CreditIcon from '../assets/waiting/credit.svg';
-import CloseIcon from '../assets/mypage/icon_close.svg'; 
-import DonateButton from '../components/DonateButton';
-import GlobalStyle from '../styles/global';
+import GlobalStyle from './../styles/global';
+import DonateButton from './../components/DonateButton';
+import CreditIcon from './../assets/waiting/CreditIcon';
+import CloseIcon from './../assets/waiting/close.svg';
 
-const ModalOverlay = styled.div`
+const Overlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  z-index: 2000;
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
-  justify-content: center;
   align-items: center;
-  pointer-events: all;
+  justify-content: center;
+  z-index: 9999;
 `;
 
 const ModalContainer = styled.div`
-  background-color: var(--black-100);
+  background: var(--black-200);
   padding: 20px;
   border-radius: 8px;
-  width: 327px;
-  max-width: 100%;
-  height: 509px;
-  max-height: 90vh;  /* 화면 크기에 따라 모달 크기 조정 */
-  color: var(--white);
+  width: 360px;
+  max-width: 90%;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   position: relative;
-  z-index: 3000;
+`;
+
+const ModalHeaderContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  overflow-y: auto;  /* 스크롤 가능하도록 설정 */
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 `;
 
 const ModalHeader = styled.h2`
+  margin: 0;
+  font-size: 20px;
   color: var(--white);
-  font-size: 24px;
+`;
+
+const CloseBtn = styled.img`
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
 `;
 
 const ModalContent = styled.div`
-  margin-top: 20px;
-  text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
+  width: 100%;
 `;
 
-const Image = styled.img`
-  width: 158px;
-  height: 206px;
-  object-fit: cover;
+const ModalImage = styled.img`
+  width: 160px;
+  height: auto;
   border-radius: 8px;
+  margin-bottom: 20px;
 `;
 
 const Subtitle = styled.p`
+  color: var(--gray-200);
+  margin: 0;
   font-size: 14px;
-  color: #aaa;
-  margin-top: 10px;
+  text-align: center;
+  width: 100%;
 `;
 
 const Title = styled.h3`
   font-size: 18px;
+  font-weight: 600;
+  text-align: center;
   margin: 10px 0;
+  color: var(--white);
+  width: 100%;
 `;
 
-const InputContainer = styled.div`
+const CreditInputContainer = styled.div`
   display: flex;
   align-items: center;
   margin-top: 20px;
-  position: relative;
-  
-  input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #444;
-    margin-right: 10px;
-    background-color: #272F3D;
-    color: var(--white);
-  }
-
-  img {
-    position: absolute;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-  }
-
-  ::-webkit-outer-spin-button,
-  ::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
+  border: 1px solid #444;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #272F3D;
+  width: 100%; /* 입력창과 버튼의 가로 크기 동일화 */
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
+const CreditInput = styled.input`
+  flex: 1;
+  padding: 10px;
   border: none;
-  cursor: pointer;
-  img {
-    width: 20px;
-    height: 20px;
-  }
+  outline: none;
+  font-size: 20px;
+  font-weight: 700;
+  background-color: #272F3D;
+  line-height: 26px;
+  color: white;
+`;
+
+const CreditIconStyled = styled(CreditIcon)`
+  width: 20px;
+  height: 20px;
+  margin: 0 10px;
+  background: none;
+`;
+
+const DonateButtonStyled = styled(DonateButton)`
+  margin-top: 20px;
+  width: 295px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const DonationModal = ({ donation, onClose }) => {
-  const [credit, setCredit] = useState('');
+  if (!donation) return null;
 
-  const handleCreditChange = (e) => setCredit(e.target.value);
-
-  const handleDonate = () => {
-    alert(`후원금액 ${credit} 크레딧으로 ${donation.title}에 후원하셨습니다.`);
-    onClose();
-  };
-
-  return (
-    <>
-      <GlobalStyle />
-      <ModalOverlay onClick={onClose}>
-        <ModalContainer onClick={(e) => e.stopPropagation()}>
-          <CloseButton onClick={onClose}>
-            <img src={CloseIcon} alt="Close" />
-          </CloseButton>
-          <ModalHeader>후원하기</ModalHeader>  
-          <ModalContent>
-            <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
-            <Subtitle>{donation.subtitle}</Subtitle>
-            <Title>{donation.title}</Title>
-
-            <InputContainer>
-              <input
-                type="number"
-                placeholder="크레딧 입력"
-                value={credit}
-                onChange={handleCreditChange}
-              />
-              <img src={CreditIcon} alt="Credit Icon" />
-            </InputContainer>
-
-            <div style={{ display: 'flex', justifyContent: 'center', width: '100%', marginTop: '20px' }}>
-              <DonateButton label="후원하기" onClick={handleDonate} />
-            </div>
-          </ModalContent>
-        </ModalContainer>
-      </ModalOverlay>
-    </>
+  return ReactDOM.createPortal(
+    <Overlay onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        <ModalHeaderContainer>
+          <ModalHeader>후원하기</ModalHeader>
+          <CloseBtn src={CloseIcon} onClick={onClose} />
+        </ModalHeaderContainer>
+        <ModalContent>
+          <ModalImage src={donation.idol.profilePicture} alt={donation.title} />
+          <Subtitle>{donation.subtitle}</Subtitle>
+          <Title>{donation.title}</Title>
+        </ModalContent>
+        <CreditInputContainer>
+          <CreditInput placeholder="크레딧 입력" />
+          <CreditIconStyled />
+        </CreditInputContainer>
+        <DonateButtonStyled label="후원하기" />
+      </ModalContainer>
+    </Overlay>,
+    document.getElementById('modal-root')
   );
 };
 
