@@ -76,7 +76,6 @@ let MyCreditStyle = styled.div`
 `;
 
 const Credit = () => {
-  const [modalState, setModalState] = useState(false);
   // 3) 불러온 함수 변수에 담기
   const myCredit = useContext(CreditContextValue);
   return (
@@ -89,15 +88,11 @@ const Credit = () => {
             <span>{myCredit.toLocaleString()}</span>
           </div>
         </div>
-        <div
-          className="credit_toggle"
-          onClick={() => setModalState((prev) => !prev)}
-        >
-          충전하기
+        <div className="credit_toggle">
+          <ChargeModal>충전하기</ChargeModal>
         </div>
         {/* 4) 그대로 사용 */}
       </MyCreditStyle>
-      {modalState && <ChargeModal />}
     </>
   );
 };
