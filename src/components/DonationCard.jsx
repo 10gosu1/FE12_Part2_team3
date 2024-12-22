@@ -27,11 +27,11 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 62%; 
+  height: 62%;
   background-image: url(${DonationCover});
   background-size: cover;
   background-position: center;
-  z-index: 1; 
+  z-index: 1;
 `;
 
 const Content = styled.div`
@@ -41,9 +41,9 @@ const Content = styled.div`
   transform: translateX(-50%);
   width: 100%;
   text-align: center;
-  z-index: 2; 
-  background-color: var(--black-200); 
-  padding-top: 0.5%; 
+  z-index: 2;
+  background-color: var(--black-200);
+  padding-top: 0.5%;
 `;
 
 const Title = styled.h3`
@@ -70,7 +70,7 @@ const ProgressBarContainer = styled.div`
 const ProgressBar = styled.div`
   height: 100%;
   width: ${({ $percentage }) => $percentage}%;
-  background: var(--coralpink)
+  background: var(--coralpink);
 `;
 
 const GoalContainer = styled.div`
@@ -101,10 +101,18 @@ const InfoContainer = styled.div`
 const DonationCard = ({ donation }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [progress, setProgress] = useState(
-    (donation.receivedDonations / donation.targetDonation) * 100,
+    (donation.receivedDonations / donation.targetDonation) * 100
   );
 
-  const handleOpenModal = () => setIsModalOpen(true);
+  const handleOpenModal = () => {
+    if (progress >= 100) {
+      // ProgressBar가 100% 이상일 때 모달을 열고 안내 문구를 표시함!
+      alert('크레딧 조공이 마감되었습니다!');
+    } else {
+      setIsModalOpen(true);
+    }
+  };
+
   const handleCloseModal = () => {
     setProgress((donation.receivedDonations / donation.targetDonation) * 100);
     setIsModalOpen(false);
@@ -125,9 +133,13 @@ const DonationCard = ({ donation }) => {
     <>
       <Card>
         <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
-        <Overlay /> 
+        <Overlay />
         <Content>
-          <DonateButton label="후원하기" onClick={handleOpenModal} />
+          <DonateButton
+            label="후원하기"
+            hasValue={true} // 항상 활성화된 상태로 보이도록 설정 -> 원래 색상으로 보이게 하기 위해서!
+            onClick={handleOpenModal}
+          />
           <Subtitle>{donation.subtitle}</Subtitle>
           <Title>{donation.title}</Title>
           <ProgressBarContainer>
@@ -150,4 +162,4 @@ const DonationCard = ({ donation }) => {
   );
 };
 
-export default DonationCard; 
+export default DonationCard;
