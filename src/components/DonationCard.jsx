@@ -77,17 +77,41 @@ const GoalContainer = styled.div`
   }
 `;
 
+const DeadlineContainer = styled.div`
+  margin-top: 10px;
+  font-size: 14px;
+  color: white; /* 글자색을 흰색으로 변경 */
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between; /* targetDonation과 남은 날짜를 한 줄에 배치 */
+  align-items: center;
+  margin-top: 10px;
+`;
+
 const DonationCard = ({ donation }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [progress, setProgress] = useState(
-    (donation.receivedDonations / donation.targetDonation) * 100
+    (donation.receivedDonations / donation.targetDonation) * 100,
   );
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => {
-    setProgress((donation.receivedDonations / donation.targetDonation) * 100)
+    setProgress((donation.receivedDonations / donation.targetDonation) * 100);
     setIsModalOpen(false);
   };
+
+  // Deadline 계산 함수
+  const calculateRemainingDays = (deadline) => {
+    const currentDate = new Date();
+    const deadlineDate = new Date(deadline);
+    const timeDiff = deadlineDate - currentDate;
+    const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24)); // 밀리초를 일로 변환
+    return daysRemaining;
+  };
+
+  const remainingDays = calculateRemainingDays(donation.deadline);
 
   return (
     <>
@@ -101,13 +125,14 @@ const DonationCard = ({ donation }) => {
           <ProgressBarContainer>
             <ProgressBar $percentage={progress} />
           </ProgressBarContainer>
-          <GoalContainer>
-            <img src={CreditIcon} alt="Credit Icon" />
-            <span>
-              {donation.targetDonation.toLocaleString()} / 현재:{' '}
-              {donation.receivedDonations.toLocaleString()}
-            </span>
-          </GoalContainer>
+          <InfoContainer>
+            <GoalContainer>
+              <img src={CreditIcon} alt="Credit Icon" />
+              <span>{donation.targetDonation.toLocaleString()}</span>
+            </GoalContainer>
+
+            <DeadlineContainer>{remainingDays}일 남음</DeadlineContainer>
+          </InfoContainer>
         </Content>
       </Card>
       {isModalOpen && (
