@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import DonateButton from './../components/DonateButton';
 import CreditIcon from './../assets/waiting/CreditIcon';
 import CloseIcon from './../assets/waiting/close.svg';
-import { CreditContextValue, CreditContextAction } from './../App'; // CreditContextAction도 import
-import DonationSuccessModal from './DonationSuccessModal';  // 새로 추가된 모달 import
+import { CreditContextValue, CreditContextAction } from './../App'; 
+import DonationSuccessModal from './DonationSuccessModal';  
 
 const Overlay = styled.div`
   position: fixed;
@@ -130,9 +130,9 @@ const CreditIconStyled = styled(CreditIcon)`
 
 const DonateButtonContainer = styled.div`
   display: flex;
-  justify-content: center; /* 버튼을 중앙에 배치 */
+  justify-content: center;
   margin-top: 20px;
-  width: 100%;  /* 부모의 너비를 맞춤 */
+  width: 100%;  
 `;
 
 const DonateButtonStyled = styled(DonateButton)`

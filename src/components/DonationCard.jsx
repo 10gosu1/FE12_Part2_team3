@@ -27,7 +27,7 @@ const Overlay = styled.div`
   top: 0;
   left: 0;
   width: 100%;
-  height: 60%; 
+  height: 62%; 
   background-image: url(${DonationCover});
   background-size: cover;
   background-position: center;
@@ -61,8 +61,8 @@ const Subtitle = styled.p`
 
 const ProgressBarContainer = styled.div`
   background: #444;
-  height: 8px;
-  border-radius: 5px;
+  height: 1px;
+  border-radius: 1px;
   overflow: hidden;
   margin-top: 10px;
 `;
