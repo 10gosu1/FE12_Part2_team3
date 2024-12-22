@@ -70,7 +70,7 @@ const ProgressBarContainer = styled.div`
 const ProgressBar = styled.div`
   height: 100%;
   width: ${({ $percentage }) => $percentage}%;
-  background: #ff4d4d;
+  background: var(--coralpink)
 `;
 
 const GoalContainer = styled.div`
@@ -125,7 +125,7 @@ const DonationCard = ({ donation }) => {
     <>
       <Card>
         <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
-        <Overlay /> {/* 덮을 이미지 */}
+        <Overlay /> 
         <Content>
           <DonateButton label="후원하기" onClick={handleOpenModal} />
           <Subtitle>{donation.subtitle}</Subtitle>

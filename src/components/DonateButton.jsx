@@ -5,7 +5,7 @@ import styled from 'styled-components';
 // Styled-components for button styling
 const DonateButton = styled.button`
   padding: 10px 20px;
-ㅇㅇ  z-index: 2;
+  z-index: 2;
   width: 234px;
   height: 40px;
   background: linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%);
