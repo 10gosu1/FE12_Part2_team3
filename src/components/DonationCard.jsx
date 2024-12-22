@@ -79,9 +79,15 @@ const GoalContainer = styled.div`
 
 const DonationCard = ({ donation }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [progress, setProgress] = useState(
+    (donation.receivedDonations / donation.targetDonation) * 100
+  );
 
   const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseModal = () => {
+    setProgress((donation.receivedDonations / donation.targetDonation) * 100)
+    setIsModalOpen(false);
+  };
 
   return (
     <>
@@ -93,9 +99,7 @@ const DonationCard = ({ donation }) => {
           <Subtitle>{donation.subtitle}</Subtitle>
           <Title>{donation.title}</Title>
           <ProgressBarContainer>
-            <ProgressBar
-              $percentage={(donation.receivedDonations / donation.targetDonation) * 100}
-            />
+            <ProgressBar $percentage={progress} />
           </ProgressBarContainer>
           <GoalContainer>
             <img src={CreditIcon} alt="Credit Icon" />
