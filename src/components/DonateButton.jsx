@@ -5,11 +5,7 @@ import styled from 'styled-components';
 // Styled-components for button styling
 const DonateButton = styled.button`
   padding: 10px 20px;
-  position: relative;
-  top: 20px;
-  left: 40%;
-  z-index: 2;
-  transform: translate(-50%, -50%); /* 버튼을 중앙에 위치시킴 */
+ㅇㅇ  z-index: 2;
   width: 234px;
   height: 40px;
   background: linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%);

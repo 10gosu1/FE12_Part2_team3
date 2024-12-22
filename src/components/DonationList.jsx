@@ -47,7 +47,7 @@ const DonationList = () => {
       <img src={Spinner} alt="로딩 중..." />
     </SpinnerContainer>
   );
-  if (error) return <div>오류 발생: {error}</div>;
+  if (error) return <div>정보를 불러오는 데 실패했습니다. 다시 시도해주세요!😥 </div>;
   if (donations.length === 0) return <div>데이터가 없습니다.</div>;
 
   return (

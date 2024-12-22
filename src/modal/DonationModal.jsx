@@ -67,14 +67,12 @@ const Subtitle = styled.p`
   color: var(--gray-200);
   margin: 0;
   font-size: 14px;
-  text-align: center;
   width: 100%;
 `;
 
 const Title = styled.h3`
   font-size: 18px;
   font-weight: 600;
-  text-align: center;
   margin: 10px 0;
   color: var(--white);
   width: 100%;
@@ -128,6 +126,13 @@ const CreditIconStyled = styled(CreditIcon)`
   height: 20px;
   margin: 0 10px;
   background: none;
+`;
+
+const DonateButtonContainer = styled.div`
+  display: flex;
+  justify-content: center; /* 버튼을 중앙에 배치 */
+  margin-top: 20px;
+  width: 100%;  /* 부모의 너비를 맞춤 */
 `;
 
 const DonateButtonStyled = styled(DonateButton)`
@@ -218,7 +223,7 @@ const DonationModal = ({ donation, onClose }) => {
             <CreditIconStyled />
           </CreditInputContainer>
           {error && <WarningMessage>현재 보유하고 계신 크레딧을 확인해주세요!</WarningMessage>}
-          <DonateButtonStyled label="후원하기" onClick={handleDonate} />
+          <DonateButtonContainer><DonateButtonStyled label="후원하기" onClick={handleDonate} /></DonateButtonContainer>
         </ModalContainer>
       </Overlay>
       {isSuccessModalOpen && (
