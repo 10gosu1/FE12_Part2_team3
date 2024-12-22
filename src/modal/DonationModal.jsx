@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import DonateButton from './../components/DonateButton';
@@ -67,14 +67,12 @@ const Subtitle = styled.p`
   color: var(--gray-200);
   margin: 0;
   font-size: 14px;
-  text-align: center;
   width: 100%;
 `;
 
 const Title = styled.h3`
   font-size: 18px;
   font-weight: 600;
-  text-align: center;
   margin: 10px 0;
   color: var(--white);
   width: 100%;
@@ -130,6 +128,13 @@ const CreditIconStyled = styled(CreditIcon)`
   background: none;
 `;
 
+const DonateButtonContainer = styled.div`
+  display: flex;
+  justify-content: center; /* 버튼을 중앙에 배치 */
+  margin-top: 20px;
+  width: 100%;  /* 부모의 너비를 맞춤 */
+`;
+
 const DonateButtonStyled = styled(DonateButton)`
   margin-top: 20px;
   width: 295px;
@@ -145,6 +150,15 @@ const DonationModal = ({ donation, onClose }) => {
   const [creditInput, setCreditInput] = useState('');
   const [error, setError] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);  // 성공 모달 상태 추가
+
+  // 모달이 열릴 때 배경 스크롤 비활성화, 닫힐 때 원래 상태로 복원
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'; // 배경 스크롤 비활성화
+
+    return () => {
+      document.body.style.overflow = 'auto'; // 모달 닫힐 때 스크롤 활성화
+    };
+  }, []);
 
   const handleInputChange = (e) => {
     setCreditInput(e.target.value);
@@ -209,7 +223,7 @@ const DonationModal = ({ donation, onClose }) => {
             <CreditIconStyled />
           </CreditInputContainer>
           {error && <WarningMessage>현재 보유하고 계신 크레딧을 확인해주세요!</WarningMessage>}
-          <DonateButtonStyled label="후원하기" onClick={handleDonate} />
+          <DonateButtonContainer><DonateButtonStyled label="후원하기" onClick={handleDonate} /></DonateButtonContainer>
         </ModalContainer>
       </Overlay>
       {isSuccessModalOpen && (
@@ -219,9 +233,11 @@ const DonationModal = ({ donation, onClose }) => {
         />
       )}
     </>,
+
     document.getElementById('modal-root')
   );
 };
 
 export default DonationModal;
+
 

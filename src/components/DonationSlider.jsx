@@ -8,20 +8,42 @@ import 'swiper/css/navigation'; // 네비게이션 스타일 추가
 
 const SliderContainer = styled.div`
   width: 100%;
-  padding: 20px 0;
+  background: var(--black-200);  
+  position: relative;  
+  padding: 0; 
+  overflow-x: visible;
+  
+  .swiper-container {
+    position: relative;  
+    z-index: 1;
+    height: auto;
+  }
+
+  .swiper-button-prev {
+  left: 10px;
+  }
+
+  .swiper-button-next {
+  right: 10px;
+  }
 
   .swiper-button-prev,
   .swiper-button-next {
     color: white !important;
     z-index: 10;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
+    background: #1B1B1B;
+    border-radius: 6.67px;
     width: 40px;
-    height: 40px;
+    height: 78px;
+    opacity: 1;  
+    visibility: visible;  
+    transition: visibility 0.3s ease, opacity 0.3s ease; 
+  }
 
-    &::after {
-      font-size: 16px;
-    }
+  .swiper-button-prev.swiper-button-disabled,
+  .swiper-button-next.swiper-button-disabled {
+    visibility: hidden;  
+    opacity: 0;  
   }
 `;
 
@@ -30,7 +52,7 @@ const DonationSlider = ({ donations }) => {
     <SliderContainer>
       <Swiper
         modules={[Navigation]} // 네비게이션 모듈 사용
-        spaceBetween={20} // 카드 간격
+        spaceBetween={30} // 카드 간격
         slidesPerView={4} // 한 번에 보이는 카드 수 
         navigation // 네비게이션 버튼 활성화
         slidesPerGroup={1} // 한 번에 이동하는 카드 수
