@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import DonateButton from './../components/DonateButton';
@@ -146,6 +146,15 @@ const DonationModal = ({ donation, onClose }) => {
   const [error, setError] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);  // 성공 모달 상태 추가
 
+  // 모달이 열릴 때 배경 스크롤 비활성화, 닫힐 때 원래 상태로 복원
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'; // 배경 스크롤 비활성화
+
+    return () => {
+      document.body.style.overflow = 'auto'; // 모달 닫힐 때 스크롤 활성화
+    };
+  }, []);
+
   const handleInputChange = (e) => {
     setCreditInput(e.target.value);
     setError(false);
@@ -219,9 +228,11 @@ const DonationModal = ({ donation, onClose }) => {
         />
       )}
     </>,
+
     document.getElementById('modal-root')
   );
 };
 
 export default DonationModal;
+
 
