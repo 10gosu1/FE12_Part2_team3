@@ -5,6 +5,7 @@ import DonateButton from './../components/DonateButton';
 import CreditIcon from './../assets/waiting/CreditIcon';
 import CloseIcon from './../assets/waiting/close.svg';
 import { CreditContextValue, CreditContextAction } from './../App'; // CreditContextAction도 import
+import DonationSuccessModal from './DonationSuccessModal';  // 새로 추가된 모달 import
 
 const Overlay = styled.div`
   position: fixed;
@@ -100,6 +101,20 @@ const CreditInput = styled.input`
   background-color: #272F3D;
   line-height: 26px;
   color: white;
+  
+  /* 숫자 화살표 없애기 */
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &::-ms-clear {
+    display: none;
+  }
 `;
 
 const WarningMessage = styled.p`
@@ -129,6 +144,7 @@ const DonationModal = ({ donation, onClose }) => {
   const { setMyCredit } = useContext(CreditContextAction);  // setMyCredit 가져오기
   const [creditInput, setCreditInput] = useState('');
   const [error, setError] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);  // 성공 모달 상태 추가
 
   const handleInputChange = (e) => {
     setCreditInput(e.target.value);
@@ -137,8 +153,6 @@ const DonationModal = ({ donation, onClose }) => {
 
   const handleDonate = () => {
     const creditValue = parseInt(creditInput, 10);
-
-    console.log('후원 버튼 클릭됨:', { creditValue, myCredit });
 
     if (isNaN(creditValue) || creditValue <= 0) {
       setError(true);
@@ -160,38 +174,54 @@ const DonationModal = ({ donation, onClose }) => {
     // 후원 데이터 업데이트
     donation.receivedDonations += creditValue;
 
+    // 후원 완료 후 성공 모달 열기
+    setIsSuccessModalOpen(true);
+
     // 입력 필드 초기화 및 모달 닫기
     setCreditInput('');
+  };
+
+  const handleSuccessModalClose = () => {
+    setIsSuccessModalOpen(false);
     onClose();
   };
 
   return ReactDOM.createPortal(
-    <Overlay onClick={onClose}>
-      <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <ModalHeaderContainer>
-          <ModalHeader>후원하기</ModalHeader>
-          <CloseBtn src={CloseIcon} onClick={onClose} />
-        </ModalHeaderContainer>
-        <ModalContent>
-          <ModalImage src={donation.idol.profilePicture} alt={donation.title} />
-          <Subtitle>{donation.subtitle}</Subtitle>
-          <Title>{donation.title}</Title>
-        </ModalContent>
-        <CreditInputContainer isError={error}>
-          <CreditInput
-            type="number"
-            placeholder="크레딧 입력"
-            value={creditInput}
-            onChange={handleInputChange}
-          />
-          <CreditIconStyled />
-        </CreditInputContainer>
-        {error && <WarningMessage>현재 보유하고 계신 크레딧을 확인해주세요!</WarningMessage>}
-        <DonateButtonStyled label="후원하기" onClick={handleDonate} />
-      </ModalContainer>
-    </Overlay>,
+    <>
+      <Overlay onClick={onClose}>
+        <ModalContainer onClick={(e) => e.stopPropagation()}>
+          <ModalHeaderContainer>
+            <ModalHeader>후원하기</ModalHeader>
+            <CloseBtn src={CloseIcon} onClick={onClose} />
+          </ModalHeaderContainer>
+          <ModalContent>
+            <ModalImage src={donation.idol.profilePicture} alt={donation.title} />
+            <Subtitle>{donation.subtitle}</Subtitle>
+            <Title>{donation.title}</Title>
+          </ModalContent>
+          <CreditInputContainer isError={error}>
+            <CreditInput
+              type="number"
+              placeholder="크레딧 입력"
+              value={creditInput}
+              onChange={handleInputChange}
+            />
+            <CreditIconStyled />
+          </CreditInputContainer>
+          {error && <WarningMessage>현재 보유하고 계신 크레딧을 확인해주세요!</WarningMessage>}
+          <DonateButtonStyled label="후원하기" onClick={handleDonate} />
+        </ModalContainer>
+      </Overlay>
+      {isSuccessModalOpen && (
+        <DonationSuccessModal
+          creditValue={creditInput}
+          onClose={handleSuccessModalClose}
+        />
+      )}
+    </>,
     document.getElementById('modal-root')
   );
 };
 
 export default DonationModal;
+

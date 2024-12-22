@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import DonationModal from '../modal/DonationModal';
 import DonateButton from './DonateButton';
 import CreditIcon from '../assets/waiting/credit.svg';
+import DonationCover from '../assets/waiting/donationCover.png';
 
 const Card = styled.div`
   position: relative;
@@ -11,6 +12,7 @@ const Card = styled.div`
   background: #222;
   border-radius: 8px;
   color: white;
+  overflow: hidden;
 `;
 
 const Image = styled.img`
@@ -22,20 +24,26 @@ const Image = styled.img`
 
 const Overlay = styled.div`
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 40%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  height: 60%; 
+  background-image: url(${DonationCover});
+  background-size: cover;
+  background-position: center;
+  z-index: 1; 
 `;
 
 const Content = styled.div`
   position: absolute;
-  bottom: 20px;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   text-align: center;
+  z-index: 2; 
+  background-color: var(--black-200); 
+  padding-top: 0.5%; 
 `;
 
 const Title = styled.h3`
@@ -80,12 +88,12 @@ const GoalContainer = styled.div`
 const DeadlineContainer = styled.div`
   margin-top: 10px;
   font-size: 14px;
-  color: white; /* 글자색을 흰색으로 변경 */
+  color: white;
 `;
 
 const InfoContainer = styled.div`
   display: flex;
-  justify-content: space-between; /* targetDonation과 남은 날짜를 한 줄에 배치 */
+  justify-content: space-between;
   align-items: center;
   margin-top: 10px;
 `;
@@ -117,7 +125,7 @@ const DonationCard = ({ donation }) => {
     <>
       <Card>
         <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
-        <Overlay />
+        <Overlay /> {/* 덮을 이미지 */}
         <Content>
           <DonateButton label="후원하기" onClick={handleOpenModal} />
           <Subtitle>{donation.subtitle}</Subtitle>
@@ -142,4 +150,4 @@ const DonationCard = ({ donation }) => {
   );
 };
 
-export default DonationCard;
+export default DonationCard; 
