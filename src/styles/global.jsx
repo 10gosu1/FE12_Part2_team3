@@ -132,19 +132,6 @@ const GlobalStyle = createGlobalStyle`
         box-shadow: none
     }
 
-    /* Button Styles */
-    button {
-        width: 100%;
-        height: 40px; 
-        border: none;
-        border-radius: 3px;
-        background: linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%);
-        color: #ffffff; 
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
     /* 버튼 */
     .btn {
         display: flex;
