@@ -125,7 +125,7 @@ const DonationCard = ({ donation }) => {
     <>
       <Card>
         <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
-        <Overlay /> {/* 덮을 이미지 */}
+        <Overlay /> 
         <Content>
           <DonateButton label="후원하기" onClick={handleOpenModal} />
           <Subtitle>{donation.subtitle}</Subtitle>

@@ -117,7 +117,7 @@ const CreditInput = styled.input`
 
 const WarningMessage = styled.p`
   color: red;
-  font-size: 12px;
+  font-size: 16px;
   margin-top: 10px;
 `;
 
@@ -222,7 +222,7 @@ const DonationModal = ({ donation, onClose }) => {
             />
             <CreditIconStyled />
           </CreditInputContainer>
-          {error && <WarningMessage>현재 보유하고 계신 크레딧을 확인해주세요!</WarningMessage>}
+          {error && <WarningMessage>현재 보유하신 크레딧을 확인해주세요!</WarningMessage>}
           <DonateButtonContainer><DonateButtonStyled label="후원하기" onClick={handleDonate} /></DonateButtonContainer>
         </ModalContainer>
       </Overlay>
