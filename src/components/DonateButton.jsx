@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const DonateButton = styled.button`
-  padding: 10px 20px;
-  z-index: 2;
-  width: 234px;
-  height: 40px;
+  all: unset;
+  display: inline-block;
+  min-width: 100px; 
+  padding: 10px 20px; 
   background: ${({ hasValue }) =>
     hasValue
       ? 'linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%)'
@@ -17,6 +17,7 @@ const DonateButton = styled.button`
   cursor: ${({ hasValue }) => (hasValue ? 'pointer' : 'not-allowed')};
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   font-size: 16px;
+  text-align: center;
 
   &:hover {
     background: ${({ hasValue }) =>
@@ -25,18 +26,14 @@ const DonateButton = styled.button`
         : 'var(--gray-200)'};
   }
 
-  @media (max-width: 768px) {
-    width: 234px;
-    height: 40px;
-    font-size: 13px;
-    padding: 2px 16px;
+  @media (max-width: 744px) {
+    padding: 8px 16px;
+    font-size: 14px;
   }
 
-  @media (max-width: 480px) {
-    width: 142px;
-    height: 31px;
+  @media (max-width: 375px) {
+    padding: 6px 12px;
     font-size: 13px;
-    padding: 2px 16px;
   }
 `;
 

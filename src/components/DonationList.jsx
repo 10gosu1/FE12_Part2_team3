@@ -6,9 +6,15 @@ import Spinner from '.././assets/waiting/spinner.gif';
 
 const Title = styled.h1`
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 700;
   color: white;
-  margin-bottom: 20px;
+  margin-bottom: 20px; 
+
+  @media (max-width: 375px) {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 10px; 
+  }
 `;
 
 const SpinnerContainer = styled.div`
@@ -60,4 +66,3 @@ const DonationList = () => {
 };
 
 export default DonationList;
-
