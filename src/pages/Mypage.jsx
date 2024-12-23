@@ -7,8 +7,15 @@ import styled from 'styled-components';
 
 const MypageSection = styled.section`
   margin-top: 78px;
+  > .hrbox:nth-child(3) {
+    margin-bottom: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
   @media (max-width: 1200px) {
     margin-top: 14px;
+    > .hrbox:nth-child(3) {
+      margin-bottom: 32px;
+    }
   }
 `;
 
@@ -101,6 +108,7 @@ const Mypage = () => {
             />
           </>
         ) : null}
+        <div className="hrbox"></div>
         <Title>관심 있는 아이돌을 추가해보세요.</Title>
         <InterestIdolAdd
           data={filteredData}
