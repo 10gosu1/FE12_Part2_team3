@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import DonationModal from '../modal/DonationModal';
 import CreditIcon from '../assets/waiting/credit.svg';
@@ -187,9 +187,16 @@ const DeadlineContainer = styled.div`
 
 const DonationCard = ({ donation }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [progress, setProgress] = useState(
-    (donation.receivedDonations / donation.targetDonation) * 100,
-  );
+  const [progress, setProgress] = useState(() => {
+    const savedProgress = localStorage.getItem(`progress-${donation.id}`);
+    return savedProgress
+      ? parseFloat(savedProgress)
+      : (donation.receivedDonations / donation.targetDonation) * 100;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(`progress-${donation.id}`, progress);
+  }, [progress, donation.id]);
 
   const handleOpenModal = () => {
     if (progress >= 100) {
@@ -221,11 +228,12 @@ const DonationCard = ({ donation }) => {
         <Overlay />
         <Content>
           <DonateButtonContainer>
-          <DonateButton
-            label="후원하기"
-            hasValue={true}
-            onClick={handleOpenModal}
-          /></DonateButtonContainer>
+            <DonateButton
+              label="후원하기"
+              hasValue={true}
+              onClick={handleOpenModal}
+            />
+          </DonateButtonContainer>
           <Subtitle>{donation.subtitle}</Subtitle>
           <Title>{donation.title}</Title>
           <ProgressBarContainer>
