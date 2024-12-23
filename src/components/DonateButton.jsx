@@ -9,10 +9,10 @@ const DonateButton = styled.button`
   top: 20px;
   left: 40%;
   z-index: 2;
-  transform: translate(-50%, -50%); /* 버튼을 중앙에 위치시킴 */
+  transform: translate(-50%, -50%);
   width: 234px;
   height: 40px;
-  background: linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%);
+  background: linear-gradient(90deg, #ff7f7f 0%, #ff4d4d 100%);
   color: white;
   font-weight: bold;
   border: none;
@@ -21,16 +21,12 @@ const DonateButton = styled.button`
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background: linear-gradient(90deg, var(--coralpink), var(--hotpink));
+    background: linear-gradient(90deg, #ff8f8f, #ff5d5d);
   }
 `;
 
-const Button = ({ label, onClick }) => {
-  return (
-    <DonateButton onClick={onClick}>
-      {label}  
-    </DonateButton>
-  );
+const Button1 = ({ label, onClick }) => {
+  return <DonateButton onClick={onClick}>{label}</DonateButton>;
 };
 
-export default Button;
+export default Button1;
