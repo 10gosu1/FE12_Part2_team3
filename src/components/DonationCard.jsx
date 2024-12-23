@@ -84,7 +84,7 @@ const DonateButtonContainer = styled.div`
 `;
 
 const Title = styled.h3`
-  font-size: 20px;
+  font-size: 14px;
   margin: 5px 0;
   text-align: left;
 
@@ -105,7 +105,7 @@ const Title = styled.h3`
 `;
 
 const Subtitle = styled.p`
-  font-size: 16px;
+  font-size: 12px;
   color: #aaa;
   margin: 5px 0;
   text-align: left;

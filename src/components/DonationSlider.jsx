@@ -1,5 +1,4 @@
-// DonationSlider.jsx
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
@@ -9,8 +8,50 @@ const Swpbox = styled.div`
   position: relative;
   display: flex;
   width: 100%;
-  min-width: 300px; /* 최소 너비 추가 */
-  min-height: 250px; /* 슬라이드 높이 유지 */
+  min-width: 300px;
+  min-height: 250px;
+
+  .swp_btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 78px;
+    border-radius: 4px;
+    background-color: rgba(27, 27, 27, 0.8);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: none;
+
+    svg {
+      fill: none;
+      stroke: white;
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+  }
+
+  .prev_btn {
+    left: -50px;
+  }
+
+  .next_btn {
+    right: -50px;
+  }
+
+  .hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (max-width: 743px) {
+    .prev_btn,
+    .next_btn {
+      display: none;
+    }
+  }
 `;
 
 const SliderContainer = styled.div`
@@ -25,7 +66,7 @@ const SliderContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 200px; /* 슬라이드 최소 너비 */
+    min-width: 200px;
   }
 
   .swiper-wrapper {
@@ -34,24 +75,82 @@ const SliderContainer = styled.div`
 `;
 
 const DonationSlider = ({ donations }) => {
+  const swiperRef = useRef(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+
+  const handlePrev = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev(); // Swiper 인스턴스의 slidePrev 호출
+    }
+  };
+
+  const handleNext = () => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext(); // Swiper 인스턴스의 slideNext 호출
+    }
+  };
+
+  useEffect(() => {
+    const swiper = swiperRef.current?.swiper;
+
+    if (swiper) {
+      // 초기 상태 업데이트
+      setIsBeginning(swiper.isBeginning);
+      setIsEnd(swiper.isEnd);
+
+      // 슬라이드 변경 시 상태 업데이트
+      const updateButtonsState = () => {
+        setIsBeginning(swiper.isBeginning);
+        setIsEnd(swiper.isEnd);
+      };
+
+      swiper.on('slideChange', updateButtonsState);
+
+      // 이벤트 정리
+      return () => {
+        swiper.off('slideChange', updateButtonsState);
+      };
+    }
+  }, []);
+
   return (
     <Swpbox>
+      {/* 이전 버튼 */}
+      <button
+        className={`swp_btn prev_btn ${isBeginning ? 'hidden' : ''}`}
+        onClick={handlePrev}
+      >
+        <svg
+          width="8"
+          height="14"
+          viewBox="0 0 8 14"
+          fill="white"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 1L1.70711 6.29289C1.31658 6.68342 1.31658 7.31658 1.70711 7.70711L7 13"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
       <SliderContainer>
         <Swiper
+          ref={swiperRef}
           spaceBetween={10}
           slidesPerView={'auto'}
           loop={false}
+          slidePerGroup={1} // 한 번에 이동할 슬라이드 개수 설정
           breakpoints={{
-          //분기점을 시안보다 더 세세하게 나눈 이유 : 
-          // 시안처럼 크게크게 나누었을 때 움직임이 너무 부자연스럽게 커져서 반응형이 예쁘게 구현되지 않는 점을 확인했습니다!
-          // 그래서 조금 더 자연스럽게 동작하도록 하기 위해서 분기점을 세세하게 나누어서 설정해뒀습니다~! 
             0: {
               slidesPerView: 1,
               spaceBetween: 10,
             },
             375: {
-              slidesPerView: 1.2, /* 슬라이드 크기 조정 */
-              spaceBetween: 8, /* 간격 조정 */
+              slidesPerView: 1.2,
+              spaceBetween: 8,
             },
             400: {
               slidesPerView: 1.5,
@@ -63,7 +162,7 @@ const DonationSlider = ({ donations }) => {
             },
             1024: {
               slidesPerView: 3,
-              spaceBetween: 18, 
+              spaceBetween: 18,
             },
             1184: {
               slidesPerView: 4,
@@ -82,8 +181,28 @@ const DonationSlider = ({ donations }) => {
           ))}
         </Swiper>
       </SliderContainer>
+      {/* 다음 버튼 */}
+      <button
+        className={`swp_btn next_btn ${isEnd ? 'hidden' : ''}`}
+        onClick={handleNext}
+      >
+        <svg
+          width="8"
+          height="14"
+          viewBox="0 0 8 14"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M1 1L6.29289 6.29289C6.68342 6.68342 6.68342 7.31658 6.29289 7.70711L1 13"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
     </Swpbox>
   );
 };
 
 export default DonationSlider;
+
