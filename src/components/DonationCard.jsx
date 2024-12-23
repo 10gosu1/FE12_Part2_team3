@@ -9,78 +9,58 @@ const Card = styled.div`
   position: relative;
   width: 100%;
   max-width: 300px;
-  min-width: 200px; 
-  aspect-ratio: 7 / 10;
-  background: #222;
-  border-radius: 8px;
+  min-width: 200px;
   color: white;
-  overflow: visible; 
-
-  @media (max-width: 375px) {
-    aspect-ratio: 7 / 12;
-  }
-
-  @media (min-width: 376px) and (max-width: 744px) {
-    aspect-ratio: 7 / 10.5;
-  }
-
-  @media (min-width: 745px) and (max-width: 1920px) {
-    aspect-ratio: 7 / 10.2;
-  }
+  overflow: visible;
 `;
 
-const Image = styled.img`
-  width: 100%;
-  height: 62%;
-  object-fit: cover;
-  border-radius: 8px 8px 0 0;
+const CardTop = styled.div`
+  position: relative;
 `;
 
-const Overlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
+const Image = styled.div`
+  position: relative;
   width: 100%;
-  height: 62%;
-  background-image: url(${DonationCover});
+  height: 0;
+  padding-top: 103.9007%;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
-  z-index: 1;
+  background-position: 50% 0%;
+  border-radius: 8px;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 58.9%, #000 100%);
+  }
 `;
 
 const Content = styled.div`
   position: relative;
   width: 100%;
-  padding: 15px;
   text-align: center;
-  background-color: var(--black-200);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: calc(38%);
-  box-sizing: border-box;
-
-  @media (max-width: 375px) {
-    padding: 10px;
-    height: calc(40%);
-  }
-
-  @media (min-width: 376px) and (max-width: 744px) {
-    padding: 12px;
-    height: calc(39%);
-  }
-
-  @media (min-width: 745px) and (max-width: 1920px) {
-    padding: 14px;
-    height: calc(38.5%);
+  margin-top: 12px;
+  @media (max-width: 743px) {
+    margin-top: 10px;
   }
 `;
 
 const DonateButtonContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%; 
+  width: 100%;
 `;
 
 const Title = styled.h3`
@@ -128,10 +108,10 @@ const Subtitle = styled.p`
 
 const ProgressBarContainer = styled.div`
   background: #444;
-  height: 1px; 
-  border-radius: 1px; 
-  margin: 10px 0;
-  overflow: visible; 
+  height: 1px;
+  border-radius: 1px;
+  margin-top: 10px;
+  overflow: visible;
   min-height: 1px;
 `;
 
@@ -139,7 +119,7 @@ const ProgressBar = styled.div`
   height: 100%;
   width: ${({ $percentage }) => $percentage}%;
   background: var(--coralpink);
-  border-radius: 1px; 
+  border-radius: 1px;
 `;
 
 const GoalContainer = styled.div`
@@ -147,6 +127,10 @@ const GoalContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
+  margin-top: 24px;
+  @media (max-width: 743px) {
+    margin-top: 20px;
+  }
 
   img {
     width: 16px;
@@ -224,9 +208,12 @@ const DonationCard = ({ donation }) => {
   return (
     <>
       <Card>
-        <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
-        <Overlay />
-        <Content>
+        <CardTop>
+          <Image
+            style={{
+              backgroundImage: `url(${donation.idol.profilePicture})`,
+            }}
+          />
           <DonateButtonContainer>
             <DonateButton
               label="후원하기"
@@ -234,11 +221,10 @@ const DonationCard = ({ donation }) => {
               onClick={handleOpenModal}
             />
           </DonateButtonContainer>
+        </CardTop>
+        <Content>
           <Subtitle>{donation.subtitle}</Subtitle>
           <Title>{donation.title}</Title>
-          <ProgressBarContainer>
-            <ProgressBar $percentage={progress} />
-          </ProgressBarContainer>
           <GoalContainer>
             <div>
               <img src={CreditIcon} alt="Credit Icon" />
@@ -246,6 +232,9 @@ const DonationCard = ({ donation }) => {
             </div>
             <DeadlineContainer>{remainingDays}일 남음</DeadlineContainer>
           </GoalContainer>
+          <ProgressBarContainer>
+            <ProgressBar $percentage={progress} />
+          </ProgressBarContainer>
         </Content>
       </Card>
       {isModalOpen && (

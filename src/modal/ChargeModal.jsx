@@ -149,6 +149,19 @@ const ChargeModal = (props) => {
                 <span>1000</span>
               </label>
             </li>
+            <li>
+              <input
+                type="radio"
+                name="credit"
+                value="10000"
+                id="credit_10000"
+                onChange={handleChangeChageCredit}
+              />
+              <label htmlFor="credit_10000">
+                <img src={creditIcon} alt="크레딧" />
+                <span>10000</span>
+              </label>
+            </li>
           </CreditChargeList>
         </div>
 

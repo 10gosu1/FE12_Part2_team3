@@ -46,7 +46,7 @@ const Swpbox = styled.div`
     pointer-events: none;
   }
 
-  @media (max-width: 743px) {
+  @media (max-width: 1200px) {
     .prev_btn,
     .next_btn {
       display: none;
@@ -142,7 +142,7 @@ const DonationSlider = ({ donations }) => {
           spaceBetween={10}
           slidesPerView={'auto'}
           loop={false}
-          slidePerGroup={1} 
+          slidePerGroup={1}
           breakpoints={{
             0: {
               slidesPerView: 1,
@@ -205,4 +205,3 @@ const DonationSlider = ({ donations }) => {
 };
 
 export default DonationSlider;
-
