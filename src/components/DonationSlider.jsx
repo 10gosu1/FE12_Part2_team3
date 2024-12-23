@@ -142,7 +142,7 @@ const DonationSlider = ({ donations }) => {
           spaceBetween={10}
           slidesPerView={'auto'}
           loop={false}
-          slidePerGroup={1} // 한 번에 이동할 슬라이드 개수 설정
+          slidePerGroup={1} 
           breakpoints={{
             0: {
               slidesPerView: 1,
