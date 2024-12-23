@@ -13,15 +13,30 @@ const useIdolApi = (initOpt = 'pageSize=4') => {
       try {
         const response = await axios.get(`${LINK}${options}`);
         setData(response.data.list);
-        setLoading(false);
       } catch (error) {
         setError(error);
-        setLoading(false);
       }
     };
 
     fetchData();
   }, [options]);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      // 모든 이미지가 로드되었는지 확인
+      const imagePromises = data.map(
+        (item) =>
+          new Promise((resolve) => {
+            const img = new Image();
+            img.src = item.image;
+            img.onload = resolve;
+            img.onerror = resolve; // 에러 발생 시에도 resolve 처리
+          }),
+      );
+
+      Promise.all(imagePromises).then(() => setLoading(false));
+    }
+  }, [data]);
 
   return { data, loading, error, setOptions };
 };

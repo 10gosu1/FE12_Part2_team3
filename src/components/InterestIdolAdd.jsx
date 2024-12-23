@@ -8,6 +8,8 @@ import plus from './../assets/mypage/plus.svg';
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/navigation';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Grid, Navigation } from 'swiper/modules';
 
@@ -92,6 +94,7 @@ const InterestIdolAdd = ({
   data,
   handleAddIdol,
   loading,
+  error,
   handleIdolCheck,
   activeData,
 }) => {
@@ -148,7 +151,56 @@ const InterestIdolAdd = ({
           </Swiper>
         </Swpbox>
       ) : (
-        <div style={{ color: 'white' }}>Loading</div>
+        <Swpbox>
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={17}
+            grid={{
+              rows: 2,
+            }}
+            breakpoints={{
+              743: {
+                slidesPerView: 4,
+                spaceBetween: 24,
+                grid: { rows: 2 },
+              },
+              1200: {
+                slidesPerView: 8,
+                spaceBetween: 24,
+                grid: { rows: 2 },
+              },
+            }}
+            modules={[Grid]}
+            className="interestIdolAdd_swp"
+          >
+            {data.map((item) => (
+              <SwiperSlide key={item.id}>
+                <Skeleton
+                  circle={true}
+                  style={{
+                    height: '0px',
+                    width: '100%',
+                    paddingTop: '100%',
+                    opacity: '0.9',
+                  }}
+                />
+                <Skeleton
+                  style={{
+                    width: '45px',
+                    margin: '5px 0 0',
+                    opacity: '0.9',
+                  }}
+                />
+                <Skeleton
+                  style={{
+                    width: '100px',
+                    opacity: '0.9',
+                  }}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </Swpbox>
       )}
 
       <AddBtn className="btn lg radius" onClick={handleAddIdol}>
