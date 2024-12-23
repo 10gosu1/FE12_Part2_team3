@@ -15,8 +15,14 @@ const useIdolApi = (initOpt = 'pageSize=4') => {
         setData(response.data.list);
         setLoading(false);
       } catch (error) {
-        setError(error);
-        setLoading(false);
+        if (error.response && error.response.status === 500) {
+          // 서버 오류가 발생한 경우 새로고침 시도
+          console.log('CORS 또는 서버 오류 발생, 페이지 새로고침 시도 중...');
+          window.location.reload();
+        } else {
+          setError(error);
+          setLoading(false);
+        }
       }
     };
 
