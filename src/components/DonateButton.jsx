@@ -1,32 +1,52 @@
-// DonateButton.jsx
 import React from 'react';
 import styled from 'styled-components';
 
-// Styled-components for button styling
 const DonateButton = styled.button`
   padding: 10px 20px;
-  position: relative;
-  top: 20px;
-  left: 40%;
   z-index: 2;
-  transform: translate(-50%, -50%);
   width: 234px;
   height: 40px;
-  background: linear-gradient(90deg, #ff7f7f 0%, #ff4d4d 100%);
+  background: ${({ hasValue }) =>
+    hasValue
+      ? 'linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%)'
+      : 'var(--gray-200)'};
   color: white;
   font-weight: bold;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: ${({ hasValue }) => (hasValue ? 'pointer' : 'not-allowed')};
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
 
   &:hover {
-    background: linear-gradient(90deg, #ff8f8f, #ff5d5d);
+    background: ${({ hasValue }) =>
+      hasValue
+        ? 'linear-gradient(90deg, var(--coralpink), var(--hotpink))'
+        : 'var(--gray-200)'};
+  }
+
+  @media (max-width: 768px) {
+    width: 234px;
+    height: 40px;
+    font-size: 13px;
+    padding: 2px 16px;
+  }
+
+  @media (max-width: 480px) {
+    width: 142px;
+    height: 31px;
+    font-size: 13px;
+    padding: 2px 16px;
   }
 `;
 
-const Button1 = ({ label, onClick }) => {
-  return <DonateButton onClick={onClick}>{label}</DonateButton>;
+const Button = ({ label, onClick, hasValue }) => {
+  return (
+    <DonateButton hasValue={hasValue} onClick={onClick}>
+      {label}
+    </DonateButton>
+  );
 };
 
-export default Button1;
+export default Button;
+

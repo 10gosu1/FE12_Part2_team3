@@ -2,12 +2,21 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import GlobalStyle from '../styles/global';
 import DonationSlider from './DonationSlider';
+import Spinner from '.././assets/waiting/spinner.gif';
 
 const Title = styled.h1`
   font-size: 24px;
   font-weight: bold;
   color: white;
   margin-bottom: 20px;
+`;
+
+const SpinnerContainer = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;  
 `;
 
 const DonationList = () => {
@@ -33,8 +42,12 @@ const DonationList = () => {
     fetchData();
   }, []);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>오류 발생: {error}</div>;
+  if (isLoading) return (
+    <SpinnerContainer>
+      <img src={Spinner} alt="로딩 중..." />
+    </SpinnerContainer>
+  );
+  if (error) return <div>정보를 불러오는 데 실패했습니다. 다시 시도해주세요!😥 </div>;
   if (donations.length === 0) return <div>데이터가 없습니다.</div>;
 
   return (
@@ -47,3 +60,4 @@ const DonationList = () => {
 };
 
 export default DonationList;
+

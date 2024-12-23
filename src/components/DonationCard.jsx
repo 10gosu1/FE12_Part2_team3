@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import DonationModal from '../modal/DonationModal';
 import DonateButton from './DonateButton';
 import CreditIcon from '../assets/waiting/credit.svg';
+import DonationCover from '../assets/waiting/donationCover.png';
 
 const Card = styled.div`
   position: relative;
@@ -11,6 +12,7 @@ const Card = styled.div`
   background: #222;
   border-radius: 8px;
   color: white;
+  overflow: hidden;
 `;
 
 const Image = styled.img`
@@ -22,20 +24,26 @@ const Image = styled.img`
 
 const Overlay = styled.div`
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
-  height: 40%;
-  background: linear-gradient(to top, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  height: 62%;
+  background-image: url(${DonationCover});
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
 `;
 
 const Content = styled.div`
   position: absolute;
-  bottom: 20px;
+  bottom: 0px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
   text-align: center;
+  z-index: 2;
+  background-color: var(--black-200);
+  padding-top: 0.5%;
 `;
 
 const Title = styled.h3`
@@ -53,8 +61,8 @@ const Subtitle = styled.p`
 
 const ProgressBarContainer = styled.div`
   background: #444;
-  height: 8px;
-  border-radius: 5px;
+  height: 1px;
+  border-radius: 1px;
   overflow: hidden;
   margin-top: 10px;
 `;
@@ -62,7 +70,7 @@ const ProgressBarContainer = styled.div`
 const ProgressBar = styled.div`
   height: 100%;
   width: ${({ $percentage }) => $percentage}%;
-  background: #ff4d4d;
+  background: var(--coralpink);
 `;
 
 const GoalContainer = styled.div`
@@ -77,11 +85,49 @@ const GoalContainer = styled.div`
   }
 `;
 
+const DeadlineContainer = styled.div`
+  margin-top: 10px;
+  font-size: 14px;
+  color: white;
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+`;
+
 const DonationCard = ({ donation }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [progress, setProgress] = useState(
+    (donation.receivedDonations / donation.targetDonation) * 100
+  );
 
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleOpenModal = () => {
+    if (progress >= 100) {
+      // ProgressBar가 100% 이상일 때 모달을 열고 안내 문구를 표시함!
+      alert('크레딧 조공이 마감되었습니다!');
+    } else {
+      setIsModalOpen(true);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setProgress((donation.receivedDonations / donation.targetDonation) * 100);
+    setIsModalOpen(false);
+  };
+
+  // Deadline 계산 함수
+  const calculateRemainingDays = (deadline) => {
+    const currentDate = new Date();
+    const deadlineDate = new Date(deadline);
+    const timeDiff = deadlineDate - currentDate;
+    const daysRemaining = Math.ceil(timeDiff / (1000 * 3600 * 24)); // 밀리초를 일로 변환
+    return daysRemaining;
+  };
+
+  const remainingDays = calculateRemainingDays(donation.deadline);
 
   return (
     <>
@@ -89,21 +135,24 @@ const DonationCard = ({ donation }) => {
         <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
         <Overlay />
         <Content>
-          <DonateButton label="후원하기" onClick={handleOpenModal} />
+          <DonateButton
+            label="후원하기"
+            hasValue={true} // 항상 활성화된 상태로 보이도록 설정 -> 원래 색상으로 보이게 하기 위해서!
+            onClick={handleOpenModal}
+          />
           <Subtitle>{donation.subtitle}</Subtitle>
           <Title>{donation.title}</Title>
           <ProgressBarContainer>
-            <ProgressBar
-              $percentage={(donation.receivedDonations / donation.targetDonation) * 100}
-            />
+            <ProgressBar $percentage={progress} />
           </ProgressBarContainer>
-          <GoalContainer>
-            <img src={CreditIcon} alt="Credit Icon" />
-            <span>
-              {donation.targetDonation.toLocaleString()} / 현재:{' '}
-              {donation.receivedDonations.toLocaleString()}
-            </span>
-          </GoalContainer>
+          <InfoContainer>
+            <GoalContainer>
+              <img src={CreditIcon} alt="Credit Icon" />
+              <span>{donation.targetDonation.toLocaleString()}</span>
+            </GoalContainer>
+
+            <DeadlineContainer>{remainingDays}일 남음</DeadlineContainer>
+          </InfoContainer>
         </Content>
       </Card>
       {isModalOpen && (
