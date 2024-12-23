@@ -77,27 +77,9 @@ const Swpbox = styled.div`
 `;
 
 const AddBtn = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 255px;
-  height: 48px;
   margin: 48px auto 0;
-  border-radius: 999px;
-  background: linear-gradient(
-    91deg,
-    var(--coralpink) 3.33%,
-    var(--hotpink) 99.37%
-  );
-  transition: all 0.2s;
-  &:hover {
-    background: linear-gradient(
-      91deg,
-      var(--coralpink) 3.33%,
-      var(--hotpink) 99.37%
-    );
-    opacity: 0.8;
-  }
+  font-size: 16px;
   > img {
     margin-right: 8px;
   }
@@ -168,7 +150,8 @@ const InterestIdolAdd = ({
       ) : (
         <div style={{ color: 'white' }}>Loading</div>
       )}
-      <AddBtn onClick={handleAddIdol}>
+
+      <AddBtn className="btn lg radius" onClick={handleAddIdol}>
         <img src={plus} alt="추가하기" />
         추가하기
       </AddBtn>

@@ -108,7 +108,7 @@ const IdolStyle = styled.div`
   @media (max-width: 743px) {
     > .close {
       > img {
-        width: 22px;
+        width: 5.87vw;
       }
     }
   }

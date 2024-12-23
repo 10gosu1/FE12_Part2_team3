@@ -53,6 +53,16 @@ const CreditChargeList = styled.ul`
   > li + li {
     margin-top: 8px;
   }
+
+  @media (max-width: 743px) {
+    > li {
+      > input {
+        & + label {
+          width: 100%;
+        }
+      }
+    }
+  }
 `;
 
 const ChargeModal = (props) => {
@@ -67,6 +77,7 @@ const ChargeModal = (props) => {
 
   // 모달관련
   const closeModal = () => {
+    setChargeCredit(0);
     setModalIsOpen(false);
     disableScrollLock();
   };
@@ -147,6 +158,7 @@ const ChargeModal = (props) => {
             onClick={() => {
               handleCreditPlus(chargeCredit);
               setTimeout(() => {
+                setChargeCredit(0);
                 closeModal();
               }, 100);
             }}
