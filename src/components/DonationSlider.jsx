@@ -9,7 +9,8 @@ const Swpbox = styled.div`
   position: relative;
   display: flex;
   width: 100%;
-  min-width: 300px; 
+  min-width: 300px; /* 최소 너비 추가 */
+  min-height: 250px; /* 슬라이드 높이 유지 */
 `;
 
 const SliderContainer = styled.div`
@@ -24,7 +25,7 @@ const SliderContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    min-width: 200px;
+    min-width: 200px; /* 슬라이드 최소 너비 */
   }
 
   .swiper-wrapper {
@@ -40,7 +41,8 @@ const DonationSlider = ({ donations }) => {
           spaceBetween={10}
           slidesPerView={'auto'}
           loop={false}
-          breakpoints={{ //분기점을 시안보다 더 세세하게 나눈 이유 : 
+          breakpoints={{
+          //분기점을 시안보다 더 세세하게 나눈 이유 : 
           // 시안처럼 크게크게 나누었을 때 움직임이 너무 부자연스럽게 커져서 반응형이 예쁘게 구현되지 않는 점을 확인했습니다!
           // 그래서 조금 더 자연스럽게 동작하도록 하기 위해서 분기점을 세세하게 나누어서 설정해뒀습니다~! 
             0: {
@@ -48,8 +50,8 @@ const DonationSlider = ({ donations }) => {
               spaceBetween: 10,
             },
             375: {
-              slidesPerView: 1.2,
-              spaceBetween: 8, 
+              slidesPerView: 1.2, /* 슬라이드 크기 조정 */
+              spaceBetween: 8, /* 간격 조정 */
             },
             400: {
               slidesPerView: 1.5,
@@ -60,11 +62,11 @@ const DonationSlider = ({ donations }) => {
               spaceBetween: 15,
             },
             1024: {
-              slidesPerView: 2.5,
+              slidesPerView: 3,
               spaceBetween: 18, 
             },
             1184: {
-              slidesPerView: 3,
+              slidesPerView: 4,
               spaceBetween: 20,
             },
             1920: {

@@ -14,7 +14,7 @@ const Card = styled.div`
   background: #222;
   border-radius: 8px;
   color: white;
-  overflow: hidden;
+  overflow: visible; 
 
   @media (max-width: 375px) {
     aspect-ratio: 7 / 12;
@@ -76,6 +76,13 @@ const Content = styled.div`
   }
 `;
 
+const DonateButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+`;
+
 const Title = styled.h3`
   font-size: 20px;
   margin: 5px 0;
@@ -121,15 +128,18 @@ const Subtitle = styled.p`
 
 const ProgressBarContainer = styled.div`
   background: #444;
-  height: 1px;
-  border-radius: 1px;
+  height: 1px; 
+  border-radius: 1px; 
   margin: 10px 0;
+  overflow: visible; 
+  min-height: 1px;
 `;
 
 const ProgressBar = styled.div`
   height: 100%;
   width: ${({ $percentage }) => $percentage}%;
   background: var(--coralpink);
+  border-radius: 1px; 
 `;
 
 const GoalContainer = styled.div`
@@ -210,11 +220,12 @@ const DonationCard = ({ donation }) => {
         <Image src={donation.idol.profilePicture} alt={donation.idol.name} />
         <Overlay />
         <Content>
+          <DonateButtonContainer>
           <DonateButton
             label="후원하기"
             hasValue={true}
             onClick={handleOpenModal}
-          />
+          /></DonateButtonContainer>
           <Subtitle>{donation.subtitle}</Subtitle>
           <Title>{donation.title}</Title>
           <ProgressBarContainer>

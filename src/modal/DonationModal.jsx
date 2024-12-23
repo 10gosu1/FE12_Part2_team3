@@ -100,7 +100,6 @@ const CreditInput = styled.input`
   line-height: 26px;
   color: white;
 
-  /* 숫자 화살표 없애기 */
   -webkit-appearance: none;
   -moz-appearance: textfield;
 
@@ -131,8 +130,9 @@ const CreditIconStyled = styled(CreditIcon)`
 const DonateButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%; 
   margin-top: 20px;
-  width: 100%;
 `;
 
 const DonationModal = ({ donation, onClose }) => {
@@ -216,7 +216,7 @@ const DonationModal = ({ donation, onClose }) => {
           <DonateButtonContainer>
             <Button
               label="후원하기"
-              hasValue={!!creditInput} // 입력값이 있으면 active
+              hasValue={!!creditInput}
               onClick={handleDonate}
             />
           </DonateButtonContainer>
@@ -234,4 +234,3 @@ const DonationModal = ({ donation, onClose }) => {
 };
 
 export default DonationModal;
-

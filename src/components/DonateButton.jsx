@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 const DonateButton = styled.button`
   all: unset;
-  display: inline-block;
-  min-width: 100px; 
-  padding: 10px 20px; 
+  display: block; 
+  width: 100%; 
+  padding: 10px 20px;
   background: ${({ hasValue }) =>
     hasValue
       ? 'linear-gradient(90deg, var(--coralpink) 0%, var(--hotpink) 100%)'
