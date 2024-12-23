@@ -1,12 +1,10 @@
-// CreditIcon.jsx
 import React from 'react';
 
-const CreditIcon = () => (
+const CreditIcon = ({ width = 24, height = 28 }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="28"
-    viewBox="0 0 24 28"
+    width={width} 
+    height={height} // 동적으로 설정해서 컴포넌트 별로 자유롭게 설정 가능!
     fill="none"
   >
     <path d="M10 14L12 11L14 14L12 17L10 14Z" fill="white" />
@@ -70,4 +68,3 @@ const CreditIcon = () => (
 );
 
 export default CreditIcon;
-
