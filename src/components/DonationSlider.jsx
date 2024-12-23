@@ -2,13 +2,14 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-
 import DonationCard from './DonationCard';
 
 const Swpbox = styled.div`
   position: relative;
   display: flex;
   width: 100%;
+  min-width: 300px;
+  min-height: 250px;
 
   .swp_btn {
     display: flex;
@@ -61,11 +62,11 @@ const SliderContainer = styled.div`
   overflow: hidden;
 
   .swiper-slide {
-    width: auto;
     flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 200px;
   }
 
   .swiper-wrapper {
@@ -79,19 +80,19 @@ const DonationSlider = ({ donations }) => {
   const [isEnd, setIsEnd] = useState(false);
 
   const handlePrev = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slidePrev();
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slidePrev(); // Swiper 인스턴스의 slidePrev 호출
     }
   };
 
   const handleNext = () => {
-    if (swiperRef.current) {
-      swiperRef.current.slideNext();
+    if (swiperRef.current && swiperRef.current.swiper) {
+      swiperRef.current.swiper.slideNext(); // Swiper 인스턴스의 slideNext 호출
     }
   };
 
   useEffect(() => {
-    const swiper = swiperRef.current;
+    const swiper = swiperRef.current?.swiper;
 
     if (swiper) {
       // 초기 상태 업데이트
@@ -135,23 +136,41 @@ const DonationSlider = ({ donations }) => {
           />
         </svg>
       </button>
-
       <SliderContainer>
         <Swiper
-          onSwiper={(swiper) => (swiperRef.current = swiper)}
+          ref={swiperRef}
           spaceBetween={10}
           slidesPerView={'auto'}
-          freeMode={true}
-          slidesPerGroup={1}
           loop={false}
+          slidePerGroup={1} // 한 번에 이동할 슬라이드 개수 설정
           breakpoints={{
-            743: {
+            0: {
+              slidesPerView: 1,
+              spaceBetween: 10,
+            },
+            375: {
+              slidesPerView: 1.2,
+              spaceBetween: 8,
+            },
+            400: {
+              slidesPerView: 1.5,
+              spaceBetween: 10,
+            },
+            744: {
+              slidesPerView: 2,
               spaceBetween: 15,
-              slidePerGroup:1
             },
             1024: {
+              slidesPerView: 3,
+              spaceBetween: 18,
+            },
+            1184: {
+              slidesPerView: 4,
               spaceBetween: 20,
-              slidePerGroup: 1
+            },
+            1920: {
+              slidesPerView: 4,
+              spaceBetween: 20,
             },
           }}
         >
@@ -162,7 +181,6 @@ const DonationSlider = ({ donations }) => {
           ))}
         </Swiper>
       </SliderContainer>
-
       {/* 다음 버튼 */}
       <button
         className={`swp_btn next_btn ${isEnd ? 'hidden' : ''}`}
@@ -187,6 +205,4 @@ const DonationSlider = ({ donations }) => {
 };
 
 export default DonationSlider;
-
-
 
