@@ -10,7 +10,6 @@ import 'swiper/css/grid';
 import 'swiper/css/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-
 import { Grid, Navigation } from 'swiper/modules';
 
 const Swpbox = styled.div`

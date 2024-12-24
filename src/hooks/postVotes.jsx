@@ -2,9 +2,9 @@ import axios from 'axios';
 
 const POST_VOTES_URL = 'https://fandom-k-api.vercel.app/12-3/votes';
 
-export const postVotes = async (idolId) => {
+export const postVotes = async (id) => {
   try {
-    const response = await axios.post(POST_VOTES_URL, { id: idolId });
+    const response = await axios.post(POST_VOTES_URL, { idolId: id });
     return response.data;
   } catch (error) {
     console.error('투표 요청 실패:', error);

@@ -1,8 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { CreditContextValue, CreditContextAction } from '../App';
 import useChartApi from '../hooks/useChartApi';
-import postVotes from '../hooks/postVotes';
 import VoteModal from './VoteModal.jsx';
 
 const FEMALE = 'female';
@@ -33,7 +31,7 @@ const Title = styled.h2`
 `;
 
 const VoteButton = styled.button`
-  background-color: #282a2c;
+  background-color: #ff6b6b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -86,6 +84,7 @@ const ChartItem = styled.li`
   background: #02000e;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1019607843);
 `;
 
 const ArtistInfoContainer = styled.div`
@@ -95,38 +94,40 @@ const ArtistInfoContainer = styled.div`
 `;
 
 const ArtistImageWrapper = styled.div`
-  width: 50px;
-  height: 50px;
-  border: 2px solid #ff6b6b;
+  width: 70px;
+  height: 70px;
+  border: 1px solid #ff6b6b;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  background-color: #02000e; /* Adds spacing effect */
 `;
 
 const ArtistImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
 `;
 
 const ArtistRank = styled.span`
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 400;
   color: #ff6b6b;
   margin-right: 10px;
 `;
 
 const ArtistName = styled.span`
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const VoteCount = styled.span`
-  font-size: 14px;
-  color: #ccc;
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff99;
 `;
 
 const MoreButton = styled.button`
@@ -138,10 +139,8 @@ const MoreButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   display: block;
-
-  &:hover {
-    background-color: #3a3c3e;
-  }
+  width: 326px;
+  height: 42px;
 `;
 
 const Loader = styled.div`
@@ -165,14 +164,21 @@ const Chart = () => {
     fetchAllData,
   } = useChartApi(activeTab, 10);
   const [showVoteModal, setShowVoteModal] = useState(false);
-  const [userCredits, setUserCredits] = useState(() => {
-    const savedCredits = localStorage.getItem('userCredits');
-    return savedCredits ? parseInt(savedCredits, 10) : 0;
-  });
 
   useEffect(() => {
-    localStorage.setItem('userCredits', userCredits);
-  }, [userCredits]);
+    const loadInitialData = async () => {
+      try {
+        const initialData = await fetchData(true); // 초기화 후 데이터 로드
+        setChartData(initialData || []); // 데이터 상태 설정
+        setCurrentPage(2); // 다음 페이지 설정
+        setHasMoreData(initialData?.length === 10); // 10개 미만이면 데이터 없음
+      } catch (err) {
+        console.error('초기 데이터 로드 실패:', err);
+      }
+    };
+
+    loadInitialData();
+  }, [activeTab]);
 
   const handleShowVoteModal = () => {
     setShowVoteModal(true);
@@ -220,13 +226,13 @@ const Chart = () => {
             {sortedChartData.map((artist, index) => (
               <ChartItem key={artist.id}>
                 <ArtistInfoContainer>
-                  <ArtistRank>{index + 1}</ArtistRank>
                   <ArtistImageWrapper>
                     <ArtistImage
                       src={artist.profilePicture}
                       alt={artist.name}
                     />
                   </ArtistImageWrapper>
+                  <ArtistRank>{index + 1}</ArtistRank>
                   <ArtistName>{artist.name}</ArtistName>
                 </ArtistInfoContainer>
                 <VoteCount>{artist.totalVotes || 0}표</VoteCount>

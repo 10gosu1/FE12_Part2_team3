@@ -67,7 +67,16 @@ const useChartApi = (gender, pageSize = 10) => {
     }
   };
 
-  return { data, loading, error, loadMore, hasMore, fetchAllData, updateVote };
+  return {
+    data,
+    loading,
+    error,
+    fetchData,
+    loadMore,
+    hasMore,
+    fetchAllData,
+    updateVote,
+  };
 };
 
 export default useChartApi;
