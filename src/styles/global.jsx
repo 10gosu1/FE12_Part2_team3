@@ -17,6 +17,8 @@ const GlobalStyle = createGlobalStyle`
 
         --coralpink: #F96D69;
         --hotpink: #FE5493;
+        --toastify-color-progress-dark: #FE5493;
+        --toastify-text-color-dark: #F7F7F8;
         
         /* Breakpoints */
         --breakpoint-sm: 576px;

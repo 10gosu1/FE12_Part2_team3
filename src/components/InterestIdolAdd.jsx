@@ -209,7 +209,11 @@ const InterestIdolAdd = ({
           ))}
         </Swiper>
       </Swpbox>
-      <AddBtn className="btn lg radius" onClick={handleAddIdol}>
+      <AddBtn
+        className="btn lg radius"
+        onClick={handleAddIdol}
+        disabled={activeData.length === 0}
+      >
         <img src={plus} alt="추가하기" />
         추가하기
       </AddBtn>
