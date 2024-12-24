@@ -1,6 +1,8 @@
 // App.js
 import React, { useState, createContext, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { toast, ToastContainer, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Landing from './pages/Landing';
 import Header from './components/Header';
 import List from './pages/List';
@@ -11,14 +13,13 @@ export const CreditContextValue = createContext();
 export const CreditContextAction = createContext();
 
 function App() {
-  const [myCredit, setMyCredit] = useState(0);
-
-  useEffect(() => {
+  const [myCredit, setMyCredit] = useState(() => {
     const localCredit = localStorage.getItem('credit');
     if (localCredit) {
-      setMyCredit(~~localCredit);
+      return ~~localCredit;
     }
-  }, []);
+    return 3000;
+  });
 
   const handleCreditPlus = (credit) => {
     setMyCredit((prev) => prev + credit);
@@ -27,7 +28,7 @@ function App() {
   const handleCreditMinus = (credit) => {
     myCredit - credit >= 0
       ? setMyCredit((prev) => prev - credit)
-      : alert('크레딧 부족!');
+      : toast('크레딧이 부족합니다.');
   };
 
   useEffect(() => {
@@ -35,7 +36,6 @@ function App() {
   }, [myCredit]);
 
   const location = useLocation();
-
   return (
     <>
       <GlobalStyle />
@@ -52,6 +52,19 @@ function App() {
               <Route path="/mypage" element={<Mypage />} />
             </Routes>
           </div>
+          <ToastContainer
+            position="top-center"
+            autoClose={500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+            transition={Flip}
+          />
         </CreditContextAction.Provider>
       </CreditContextValue.Provider>
     </>
