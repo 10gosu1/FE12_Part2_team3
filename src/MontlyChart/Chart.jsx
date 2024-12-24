@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { CreditContextValue, CreditContextAction } from '../App';
 import useChartApi from '../hooks/useChartApi';
 import postVotes from '../hooks/postVotes';
+import VoteModal from './VoteModal.jsx';
 
 const FEMALE = 'female';
 const MALE = 'male';
