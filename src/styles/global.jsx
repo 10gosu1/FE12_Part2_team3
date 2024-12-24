@@ -4,6 +4,10 @@ import bg from './../assets/header/bg.png';
 const GlobalStyle = createGlobalStyle`
 
 /* Root Variables */
+.react-loading-skeleton{
+    --base-color: #bbbbbb;
+    --animation-duration: 1.2s;
+}
 :root {
         --black-200: #02000e;
         --black-100: #181D26;
@@ -17,6 +21,8 @@ const GlobalStyle = createGlobalStyle`
 
         --coralpink: #F96D69;
         --hotpink: #FE5493;
+        --toastify-color-progress-dark: #FE5493;
+        --toastify-text-color-dark: #F7F7F8;
         
         /* Breakpoints */
         --breakpoint-sm: 576px;

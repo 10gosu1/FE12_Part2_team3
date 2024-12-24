@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useContext, useState } from 'react';
 // 2) App 에서 CreditContextAction 만 불러오기 (여기선 행동과 관련된 함수만 필요하기 때문에)
 import { CreditContextAction } from './../App';
+import { toast } from 'react-toastify';
 // 크레딧 충전 관련
 import closeIcon from './../assets/waiting/close.svg';
 import creditWhiteIcon from '../assets/waiting/credit_white.svg';
@@ -168,12 +169,14 @@ const ChargeModal = (props) => {
         <div className="modal_button">
           <button
             className="btn"
+            disabled={chargeCredit === 0}
             onClick={() => {
               handleCreditPlus(chargeCredit);
               setTimeout(() => {
                 setChargeCredit(0);
                 closeModal();
               }, 100);
+              toast(`${chargeCredit.toLocaleString()}크레딧이 충전되었습니다.`);
             }}
           >
             <img src={creditWhiteIcon} alt="크레딧" />

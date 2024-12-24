@@ -4,6 +4,7 @@ import Title from './../components/Title';
 import InterestIdol from './../components/InterestIdol';
 import InterestIdolAdd from './../components/InterestIdolAdd';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 const MypageSection = styled.section`
   margin-top: 78px;
@@ -63,6 +64,8 @@ const Mypage = () => {
     localStorage.setItem('interestIdols', JSON.stringify(updatedData));
     // gpt) "아이돌 로컬스토리지 데이터" 에 로컬스토리지 상태 저장
     setLocalData(updatedData);
+    // 토스트 노출
+    toast(`${activeData.length}명의 아이돌을 추가하였습니다.`);
     // 체크된 아이돌 초기화
     setActiveData([]);
   };

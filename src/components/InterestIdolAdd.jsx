@@ -10,6 +10,11 @@ import 'swiper/css/grid';
 import 'swiper/css/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+<<<<<<< HEAD
+=======
+import ErrorBox from './ErrorBox';
+
+>>>>>>> 4eb58e9dfc2c52e9834373125b0f8b74362ee015
 import { Grid, Navigation } from 'swiper/modules';
 
 const Swpbox = styled.div`
@@ -100,109 +105,115 @@ const InterestIdolAdd = ({
   const prevRef = useRef(null);
   const nextRef = useRef(null);
 
+  if (error) {
+    return <ErrorBox />;
+  }
+
+  if (loading) {
+    return (
+      <Swpbox>
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={17}
+          grid={{
+            rows: 2,
+          }}
+          breakpoints={{
+            743: {
+              slidesPerView: 4,
+              spaceBetween: 24,
+              grid: { rows: 2 },
+            },
+            1200: {
+              slidesPerView: 8,
+              spaceBetween: 24,
+              grid: { rows: 2 },
+            },
+          }}
+          modules={[Grid]}
+          className="interestIdolAdd_swp"
+        >
+          {[...Array(16)].map((_, index) => (
+            <SwiperSlide key={index}>
+              <Skeleton
+                circle={true}
+                style={{
+                  height: '0px',
+                  width: '100%',
+                  paddingTop: '100%',
+                }}
+              />
+              <Skeleton
+                style={{
+                  width: '45px',
+                  margin: '5px 0 0',
+                }}
+              />
+              <Skeleton
+                style={{
+                  width: '100px',
+                }}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Swpbox>
+    );
+  }
+
   return (
     <>
-      {!loading ? (
-        <Swpbox>
-          <div className="swp_btn prev_btn" ref={prevRef}>
-            <img src={prevIcon} alt="이전으로" />
-          </div>
-          <div className="swp_btn next_btn" ref={nextRef}>
-            <img src={nextIcon} alt="다음으로" />
-          </div>
-          <Swiper
-            slidesPerView={3}
-            spaceBetween={17}
-            grid={{
-              rows: 2,
-            }}
-            breakpoints={{
-              743: {
-                slidesPerView: 4,
-                spaceBetween: 24,
-                grid: { rows: 2 },
-              },
-              1200: {
-                slidesPerView: 8,
-                spaceBetween: 24,
-                grid: { rows: 2 },
-              },
-            }}
-            onInit={(swiper) => {
-              swiper.params.navigation.prevEl = prevRef.current;
-              swiper.params.navigation.nextEl = nextRef.current;
-              swiper.navigation.init();
-              swiper.navigation.update();
-            }}
-            modules={[Grid, Navigation]}
-            className="interestIdolAdd_swp"
-          >
-            {data.map((item) => (
-              <SwiperSlide key={item.id}>
-                <IdolBox
-                  item={item}
-                  type="add"
-                  onClick={() => handleIdolCheck(item)} // 클릭 시 해당 아이템의 data를 전달
-                  isActive={activeData.includes(item)} // activeItems 배열에 해당 data를가 있으면 active 클래스를 적용
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Swpbox>
-      ) : (
-        <Swpbox>
-          <Swiper
-            slidesPerView={3}
-            spaceBetween={17}
-            grid={{
-              rows: 2,
-            }}
-            breakpoints={{
-              743: {
-                slidesPerView: 4,
-                spaceBetween: 24,
-                grid: { rows: 2 },
-              },
-              1200: {
-                slidesPerView: 8,
-                spaceBetween: 24,
-                grid: { rows: 2 },
-              },
-            }}
-            modules={[Grid]}
-            className="interestIdolAdd_swp"
-          >
-            {data.map((item) => (
-              <SwiperSlide key={item.id}>
-                <Skeleton
-                  circle={true}
-                  style={{
-                    height: '0px',
-                    width: '100%',
-                    paddingTop: '100%',
-                    opacity: '0.9',
-                  }}
-                />
-                <Skeleton
-                  style={{
-                    width: '45px',
-                    margin: '5px 0 0',
-                    opacity: '0.9',
-                  }}
-                />
-                <Skeleton
-                  style={{
-                    width: '100px',
-                    opacity: '0.9',
-                  }}
-                />
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Swpbox>
-      )}
-
-      <AddBtn className="btn lg radius" onClick={handleAddIdol}>
+      <Swpbox>
+        <div className="swp_btn prev_btn" ref={prevRef}>
+          <img src={prevIcon} alt="이전으로" />
+        </div>
+        <div className="swp_btn next_btn" ref={nextRef}>
+          <img src={nextIcon} alt="다음으로" />
+        </div>
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={17}
+          grid={{
+            rows: 2,
+          }}
+          breakpoints={{
+            743: {
+              slidesPerView: 4,
+              spaceBetween: 24,
+              grid: { rows: 2 },
+            },
+            1200: {
+              slidesPerView: 8,
+              spaceBetween: 24,
+              grid: { rows: 2 },
+            },
+          }}
+          onInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+            swiper.navigation.init();
+            swiper.navigation.update();
+          }}
+          modules={[Grid, Navigation]}
+          className="interestIdolAdd_swp"
+        >
+          {data.map((item) => (
+            <SwiperSlide key={item.id}>
+              <IdolBox
+                item={item}
+                type="add"
+                onClick={() => handleIdolCheck(item)} // 클릭 시 해당 아이템의 data를 전달
+                isActive={activeData.includes(item)} // activeItems 배열에 해당 data가 있으면 active 클래스를 적용
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Swpbox>
+      <AddBtn
+        className="btn lg radius"
+        onClick={handleAddIdol}
+        disabled={activeData.length === 0}
+      >
         <img src={plus} alt="추가하기" />
         추가하기
       </AddBtn>
