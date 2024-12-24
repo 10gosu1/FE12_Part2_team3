@@ -23,6 +23,10 @@ const ModalBackdrop = styled.div`
   @media (min-width: 768px) {
     background-color: rgba(0, 0, 0, 0.5);
   }
+
+  @supports (-webkit-touch-callout: none) {
+    min-height: -webkit-fill-available;
+  }
 `;
 
 const ModalContainer = styled.div`
