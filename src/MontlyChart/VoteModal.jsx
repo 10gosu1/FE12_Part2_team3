@@ -280,7 +280,7 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
       await postVotes(selectedIdol.id); // 투표 API 호출
       handleCreditMinus(1000); // 크레딧 차감
       alert(`${selectedIdol.name}에게 투표 완료!`);
-      onVoteSuccess(); // 부모 컴포넌트에서 데이터 새로고침 처리
+      onVoteSuccess(); // 부모 컴포넌트에서 updateVote 함수 호출
       onClose();
     } catch (error) {
       alert('투표 처리 중 문제가 발생했습니다. 다시 시도해주세요.');

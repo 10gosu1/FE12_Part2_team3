@@ -56,11 +56,9 @@ const useChartApi = (gender, pageSize = 10) => {
     }
   };
 
-  const updateVote = async (idolId) => {
+  const updateVote = async () => {
+    // fetchData(true)로 변경
     try {
-      await axios.post(`https://fandom-k-api.vercel.app/12-3/vote`, {
-        idolId,
-      });
       await fetchData(true); // 투표 후 데이터 새로고침
     } catch (error) {
       console.error('투표 업데이트 실패:', error);

@@ -162,16 +162,17 @@ const Chart = () => {
     loadMore,
     hasMore,
     fetchAllData,
+    updateVote, // updateVote 함수 추가
   } = useChartApi(activeTab, 10);
   const [showVoteModal, setShowVoteModal] = useState(false);
 
   useEffect(() => {
     const loadInitialData = async () => {
       try {
-        const initialData = await fetchData(true); // 초기화 후 데이터 로드
-        setChartData(initialData || []); // 데이터 상태 설정
-        setCurrentPage(2); // 다음 페이지 설정
-        setHasMoreData(initialData?.length === 10); // 10개 미만이면 데이터 없음
+        const initialData = await fetchAllData(); // 초기화 후 데이터 로드
+        setChartData(initialData || []); // 데이터 상태 설정 (setChartData가 없어서 임시로 추가)
+        setCurrentPage(2); // 다음 페이지 설정 (setCurrentPage가 없어서 임시로 추가)
+        setHasMoreData(initialData?.length === 10); // 10개 미만이면 데이터 없음 (setHasMoreData가 없어서 임시로 추가)
       } catch (err) {
         console.error('초기 데이터 로드 실패:', err);
       }
@@ -189,7 +190,8 @@ const Chart = () => {
   };
 
   const handleVoteSuccess = () => {
-    fetchAllData(); // 투표 성공 후 데이터 새로 고침
+    // 투표 성공 후 데이터 새로 고침 -> updateVote 함수로 대체
+    updateVote();
   };
 
   const sortedChartData = [...chartData].sort(
