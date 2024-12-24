@@ -7,6 +7,7 @@ import checkInIcon from '../assets/waiting/radio_ck.svg';
 import checkOutIcon from '../assets/waiting/radio.svg';
 import iconCheck from '../assets/mypage/icon_check.svg';
 import LackModal from '../modal/LackModal';
+import { useSwipeable } from 'react-swipeable';
 
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -20,32 +21,34 @@ const ModalBackdrop = styled.div`
   align-items: center;
   z-index: 99;
   @media (min-width: 768px) {
-    background-color: rgba(0, 0, 0, 0.5); /* 데스크탑에서는 투명 */
+    background-color: rgba(0, 0, 0, 0.5);
   }
 `;
 
 const ModalContainer = styled.div`
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* 화면 중앙으로 이동 */
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
+
   @media (min-width: 768px) {
-    width: 525px;
-    height: 693px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 525px;
+    height: 693px;
+    background-color: #02000e;
     border-radius: 15px;
-    background-color: #121212; /* 데스크탑 배경 */
-    background-image: none; /* 데스크탑에서는 배경 이미지 제거 */
+  }
+
+  @supports (-webkit-touch-callout: none) {
+    min-height: -webkit-fill-available;
   }
 `;
 
@@ -56,12 +59,21 @@ const ModalContent = styled.div`
   height: 693px;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* 내용이 넘치지 않도록 설정 */
+  overflow: hidden;
   position: relative;
+
+  @media (max-width: 769px) {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(271.36deg, #02000e -9.84%, #121212 107.18%);
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const ModalHeader = styled.div`
-  background-color: #181d26; /* 배경색 추가 */
+  background-color: #181d26;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -69,36 +81,53 @@ const ModalHeader = styled.div`
   border-bottom: 1px solid #444;
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 769px) {
+    padding: 20px;
+    text-align: center;
+    background: none;
+    font-size: 18px;
+    color: white;
+  }
 `;
 
 const ModalBody = styled.div`
-  flex-grow: 1; /* Body가 나머지 공간을 차지 */
-  overflow-y: auto; /* 스크롤 추가 */
+  flex-grow: 1;
+  overflow-y: auto;
   background-color: #181D26;
   padding: 20px;
-   scrollbar-width: thin; /* Firefox에서 얇은 스크롤 */
-  scrollbar-color: #ff6b6b #1e1e1e; /* 스크롤 색상 */
+   scrollbar-width: thin;
+  scrollbar-color: #ff6b6b #1e1e1e;
    &::-webkit-scrollbar {
-    width: 8px; /* 스크롤바 너비 */
+    width: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
     background: linear-gradient(271.36deg, #f96e68 -9.84%, #fe578f 107.18%);
-    border-radius: 10px; /* 스크롤바 둥글게 */
+    border-radius: 10px;
   }
 
   &::-webkit-scrollbar-track {
     background: #1e1e1e;
-    border-radius: 10px; /* 스크롤 트랙 둥글게 */
+    border-radius: 10px;
 `;
 
 const ModalFooter = styled.div`
-  background-color: #181d26; /* 배경색 추가 */
+  background-color: #181d26;
   position: sticky;
   bottom: 0;
   z-index: 10;
   padding: 20px;
   border-top: 1px solid #444;
+
+  @media (max-width: 769px) {
+    display: flex;
+    background: none;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const ModalTitle = styled.h3`
@@ -114,6 +143,9 @@ const CloseButton = styled.button`
   font-size: 30px;
   color: #fff;
   cursor: pointer;
+  @media (max-width: 769px) {
+    display: none;
+  }
 `;
 
 const ArtistList = styled.ul`
@@ -161,8 +193,8 @@ const Overlay = styled.div`
       ? 'linear-gradient(271.36deg, #F96E68 -9.84%, #FE578F 107.18%)'
       : 'transparent'};
   opacity: ${(props) => (props.isSelected ? 0.5 : 0)};
-  z-index: 1; /* 이미지 위에 위치 */
-  pointer-events: none; /* 클릭 방해하지 않음 */
+  z-index: 1;
+  pointer-events: none;
   transition: opacity 0.3s;
 `;
 
@@ -171,7 +203,7 @@ const ArtistImage = styled.img`
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  z-index: 0; /* 이미지를 그라데이션 아래로 배치 */
+  z-index: 0;
 `;
 
 const CheckIconImage = styled.img`
@@ -179,8 +211,8 @@ const CheckIconImage = styled.img`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
+  width: 50px;
+  height: 50px;
   display: ${(props) => (props.isSelected ? 'block' : 'none')};
   z-index: 2;
 `;
@@ -243,10 +275,15 @@ const VoteButton = styled.button`
     background-color: #555;
     cursor: not-allowed;
   }
+
+  @media (max-width: 769px) {
+    display: flex;
+    justtfy-content: center;
+    align-items: center;
+  }
 `;
 
 const StyledVoteButton = styled(VoteButton)`
-  /* VoteButton에 이미 있는 스타일을 그대로 사용 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -267,10 +304,9 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
 
   useEffect(() => {
     fetchAllData();
-    // Disable scrolling on the background when the modal is open
     document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = 'auto'; // Restore scrolling
+      document.body.style.overflow = 'auto';
     };
   }, [activeTab]);
 
@@ -283,7 +319,7 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
     }
 
     if (userCredits < 1000) {
-      onClose(); // 투표 모달창 닫기
+      onClose();
       return;
     }
 
@@ -291,7 +327,7 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
       await postVotes(selectedIdol.id); // 투표 API 호출
       handleCreditMinus(1000); // 크레딧 차감
       alert(`${selectedIdol.name}에게 투표 완료!`);
-      onVoteSuccess(); // 부모 컴포넌트에서 updateVote 함수 호출
+      onVoteSuccess(); // updateVote 함수 호출
       onClose();
     } catch (error) {
       alert('투표 처리 중 문제가 발생했습니다. 다시 시도해주세요.');
@@ -321,8 +357,17 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
     }
   };
 
+  const swipeHandlers = useSwipeable({
+    onSwipedRight: () => {
+      onClose(); // 오른쪽으로 스와이프하면 모달 닫기
+    },
+    preventDefaultTouchmoveEvent: true,
+    trackTouch: true,
+    trackMouse: false,
+  });
+
   return (
-    <ModalBackdrop onClick={handleBackdropClick}>
+    <ModalBackdrop {...swipeHandlers} onClick={handleBackdropClick}>
       <ModalContainer>
         <ModalContent>
           <ModalHeader>

@@ -23,14 +23,13 @@ const useIdolApi = (initOpt = 'pageSize=4') => {
 
   useEffect(() => {
     if (data.length > 0) {
-      // 모든 이미지가 로드되었는지 확인
       const imagePromises = data.map(
         (item) =>
           new Promise((resolve) => {
             const img = new Image();
             img.src = item.image;
             img.onload = resolve;
-            img.onerror = resolve; // 에러 발생 시에도 resolve 처리
+            img.onerror = resolve;
           }),
       );
 

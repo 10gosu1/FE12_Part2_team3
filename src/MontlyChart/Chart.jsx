@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import useChartApi from '../hooks/useChartApi';
 import VoteModal from './VoteModal.jsx';
+import chartImage from '../assets/waiting/Chart.png';
 
 const FEMALE = 'female';
 const MALE = 'male';
@@ -38,10 +39,20 @@ const VoteButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 
   &:hover {
     background-color: #3a3c3e;
   }
+`;
+
+const VoteButtonImage = styled.img`
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
 `;
 
 const Tabs = styled.div`
@@ -186,9 +197,9 @@ const Chart = () => {
     const loadInitialData = async () => {
       try {
         const initialData = await fetchAllData(); // 초기화 후 데이터 로드
-        setChartData(initialData || []); // 데이터 상태 설정 (setChartData가 없어서 임시로 추가)
-        setCurrentPage(2); // 다음 페이지 설정 (setCurrentPage가 없어서 임시로 추가)
-        setHasMoreData(initialData?.length === 10); // 10개 미만이면 데이터 없음 (setHasMoreData가 없어서 임시로 추가)
+        setChartData(initialData || []); // 데이터 상태 설정
+        setCurrentPage(2); // 다음 페이지 설정
+        setHasMoreData(initialData?.length === 10); // 10개 미만이면 데이터 없음
       } catch (err) {
         console.error('초기 데이터 로드 실패:', err);
       }
@@ -206,7 +217,6 @@ const Chart = () => {
   };
 
   const handleVoteSuccess = () => {
-    // 투표 성공 후 데이터 새로 고침 -> updateVote 함수로 대체
     updateVote();
   };
 
@@ -218,7 +228,10 @@ const Chart = () => {
     <ChartContainer>
       <Header>
         <Title>이달의 차트</Title>
-        <VoteButton onClick={handleShowVoteModal}>차트 투표하기</VoteButton>
+        <VoteButton onClick={handleShowVoteModal}>
+          <VoteButtonImage src={chartImage} alt="투표하기 아이콘" />
+          차트 투표하기
+        </VoteButton>
       </Header>
       <Tabs>
         <TabButton

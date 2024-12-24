@@ -34,7 +34,7 @@ const useChartApi = (gender, pageSize = 10) => {
   };
 
   useEffect(() => {
-    fetchData(true); // 성별 변경 시 초기화 후 로드
+    fetchData(true);
   }, [gender]);
 
   const loadMore = () => {
@@ -44,12 +44,12 @@ const useChartApi = (gender, pageSize = 10) => {
   const fetchAllData = async () => {
     try {
       const params = new URLSearchParams({
-        pageSize: 1000, // 최대 크기로 모든 데이터 요청
+        pageSize: 1000,
         ...(gender && { gender }),
       }).toString();
 
       const response = await axios.get(`${API_BASE_URL}/${gender}?${params}`);
-      return response.data.idols || []; // idols 배열 반환
+      return response.data.idols || [];
     } catch (error) {
       console.error('데이터 로드 실패:', error);
       return [];
@@ -57,7 +57,6 @@ const useChartApi = (gender, pageSize = 10) => {
   };
 
   const updateVote = async () => {
-    // fetchData(true)로 변경
     try {
       await fetchData(true); // 투표 후 데이터 새로고침
     } catch (error) {

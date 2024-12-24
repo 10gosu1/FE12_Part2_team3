@@ -20,6 +20,7 @@
     "react-modal": "^3.16.3",
     "react-responsive": "^10.0.0",
     "react-router-dom": "^7.0.2",
+    "react-swipeable": "^7.0.2",
     "react-toastify": "^11.0.2",
     "styled-components": "^6.1.13",
     "styled-react-modal": "^3.1.1",
