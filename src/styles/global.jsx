@@ -4,6 +4,10 @@ import bg from './../assets/header/bg.png';
 const GlobalStyle = createGlobalStyle`
 
 /* Root Variables */
+.react-loading-skeleton{
+    --base-color: #bbbbbb;
+    --animation-duration: 1.2s;
+}
 :root {
         --black-200: #02000e;
         --black-100: #181D26;

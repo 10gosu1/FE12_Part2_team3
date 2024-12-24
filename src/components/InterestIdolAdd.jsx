@@ -138,20 +138,17 @@ const InterestIdolAdd = ({
                   height: '0px',
                   width: '100%',
                   paddingTop: '100%',
-                  opacity: '0.9',
                 }}
               />
               <Skeleton
                 style={{
                   width: '45px',
                   margin: '5px 0 0',
-                  opacity: '0.9',
                 }}
               />
               <Skeleton
                 style={{
                   width: '100px',
-                  opacity: '0.9',
                 }}
               />
             </SwiperSlide>
