@@ -10,11 +10,7 @@ import 'swiper/css/grid';
 import 'swiper/css/navigation';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-<<<<<<< HEAD
-=======
 import ErrorBox from './ErrorBox';
-
->>>>>>> 4eb58e9dfc2c52e9834373125b0f8b74362ee015
 import { Grid, Navigation } from 'swiper/modules';
 
 const Swpbox = styled.div`
