@@ -4,8 +4,6 @@ import Waiting from '../components/DonationList';
 import Chart from '../MontlyChart/Chart';
 import { ChartProvider } from '../hooks/ChartContext';
 
-import LackModal from '../modal/LackModal';
-
 const List = () => {
   return (
     <>

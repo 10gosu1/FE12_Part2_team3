@@ -14,11 +14,14 @@ const ModalBackdrop = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 99;
+  @media (min-width: 768px) {
+    background-color: rgba(0, 0, 0, 0.5); /* 데스크탑에서는 투명 */
+  }
 `;
 
 const ModalContainer = styled.div`
@@ -26,18 +29,28 @@ const ModalContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%); /* 화면 중앙으로 이동 */
-  width: 525px;
-  height: 693px;
+  width: 100vw;
+  height: 100vh;
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media (min-width: 768px) {
+    width: 525px;
+    height: 693px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+    background-color: #121212; /* 데스크탑 배경 */
+    background-image: none; /* 데스크탑에서는 배경 이미지 제거 */
+  }
 `;
 
 const ModalContent = styled.div`
-  background-color: #121212;
+  background-color: #181d26b;
   border-radius: 15px;
   width: 525px;
   height: 693px;
@@ -48,7 +61,7 @@ const ModalContent = styled.div`
 `;
 
 const ModalHeader = styled.div`
-  background-color: #121212; /* 배경색 추가 */
+  background-color: #181d26; /* 배경색 추가 */
   position: sticky;
   top: 0;
   z-index: 10;
@@ -61,6 +74,7 @@ const ModalHeader = styled.div`
 const ModalBody = styled.div`
   flex-grow: 1; /* Body가 나머지 공간을 차지 */
   overflow-y: auto; /* 스크롤 추가 */
+  background-color: #181D26;
   padding: 20px;
    scrollbar-width: thin; /* Firefox에서 얇은 스크롤 */
   scrollbar-color: #ff6b6b #1e1e1e; /* 스크롤 색상 */
@@ -79,7 +93,7 @@ const ModalBody = styled.div`
 `;
 
 const ModalFooter = styled.div`
-  background-color: #121212; /* 배경색 추가 */
+  background-color: #181d26; /* 배경색 추가 */
   position: sticky;
   bottom: 0;
   z-index: 10;
@@ -93,11 +107,11 @@ const ModalTitle = styled.h3`
 `;
 
 const CloseButton = styled.button`
-  width: 15.5px;
-  height: 15.5px;
+  width: 24px;
+  height: 24px;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 30px;
   color: #fff;
   cursor: pointer;
 `;
@@ -115,20 +129,17 @@ const ArtistItem = styled.li`
   display: flex;
   align-items: center;
   padding: 10px;
-  background-color: #1e1e1e;
+  background-color: #181d26;
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s;
   gap: 15px;
-
-  &:hover {
-    background-color: #292929;
-  }
+  border-bottom: 1px solid #444;
 `;
 
 const ArtistImageWrapper = styled.div`
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border: 1px solid #ff6b6b;
   border-radius: 50%;
   display: flex;
@@ -200,8 +211,8 @@ const ArtistVotes = styled.span`
 `;
 
 const RadioWrapper = styled.div`
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -217,7 +228,7 @@ const VoteButton = styled.button`
   height: 42px;
   margin-top: 20px;
   padding: 10px;
-  background-color: #ff6b6b;
+  background: linear-gradient(90deg, #f86f65 0%, #fe5493 100%);
   color: white;
   border: none;
   border-radius: 10px;
@@ -225,7 +236,7 @@ const VoteButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #ff4c4c;
+    background: linear-gradient(90deg, #fe5493 100%, #f86f65 0%);
   }
 
   &:disabled {
@@ -370,7 +381,7 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
           <ModalFooter>
             {renderVoteButton()} {/* 버튼 또는 LackModal */}
             <CreditsInfo>
-              남은 크레딧: {userCredits.toLocaleString()}
+              투표하는데 <span>1000 크레딧</span>이 소모됩니다.
             </CreditsInfo>
           </ModalFooter>
         </ModalContent>

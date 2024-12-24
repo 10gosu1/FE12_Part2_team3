@@ -70,10 +70,14 @@ const TabButton = styled.button`
 
 const ChartList = styled.ul`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
   gap: 20px;
   padding: 0;
   list-style: none;
+
+  @media (min-width: 744px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const ChartItem = styled.li`
@@ -155,6 +159,7 @@ const Loader = styled.div`
 
 const Chart = () => {
   const [activeTab, setActiveTab] = useState(FEMALE);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 744);
   const {
     data: chartData,
     loading,
@@ -163,8 +168,19 @@ const Chart = () => {
     hasMore,
     fetchAllData,
     updateVote, // updateVote 함수 추가
-  } = useChartApi(activeTab, 10);
+  } = useChartApi(activeTab, isMobile ? 5 : 10);
   const [showVoteModal, setShowVoteModal] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 744);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const loadInitialData = async () => {
