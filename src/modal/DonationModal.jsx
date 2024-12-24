@@ -91,7 +91,9 @@ const CreditInputContainer = styled.div`
 
 const CreditInput = styled.input`
   flex: 1;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
   border: none;
   outline: none;
   font-size: 20px;
@@ -100,7 +102,6 @@ const CreditInput = styled.input`
   line-height: 26px;
   color: white;
 
-  /* 숫자 화살표 없애기 */
   -webkit-appearance: none;
   -moz-appearance: textfield;
 
@@ -122,17 +123,19 @@ const WarningMessage = styled.p`
 `;
 
 const CreditIconStyled = styled(CreditIcon)`
-  width: 20px;
-  height: 20px;
-  margin: 0 10px;
+  width: 24px;
+  height: 24px;
+  margin-left: 20px;
   background: none;
+  display: inline-block;
 `;
 
 const DonateButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%; 
   margin-top: 20px;
-  width: 100%;
 `;
 
 const DonationModal = ({ donation, onClose }) => {
@@ -210,13 +213,13 @@ const DonationModal = ({ donation, onClose }) => {
           </CreditInputContainer>
           {error && (
             <WarningMessage>
-              현재 보유하신 크레딧을 확인해주세요!
+              갖고 있는 크레딧보다 더 많이 후원할 수 없어요
             </WarningMessage>
           )}
           <DonateButtonContainer>
             <Button
               label="후원하기"
-              hasValue={!!creditInput} // 입력값이 있으면 active
+              hasValue={!!creditInput}
               onClick={handleDonate}
             />
           </DonateButtonContainer>
@@ -234,4 +237,3 @@ const DonationModal = ({ donation, onClose }) => {
 };
 
 export default DonationModal;
-

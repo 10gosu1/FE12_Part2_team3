@@ -53,6 +53,16 @@ const CreditChargeList = styled.ul`
   > li + li {
     margin-top: 8px;
   }
+
+  @media (max-width: 743px) {
+    > li {
+      > input {
+        & + label {
+          width: 100%;
+        }
+      }
+    }
+  }
 `;
 
 const ChargeModal = (props) => {
@@ -67,6 +77,7 @@ const ChargeModal = (props) => {
 
   // 모달관련
   const closeModal = () => {
+    setChargeCredit(0);
     setModalIsOpen(false);
     disableScrollLock();
   };
@@ -138,6 +149,19 @@ const ChargeModal = (props) => {
                 <span>1000</span>
               </label>
             </li>
+            <li>
+              <input
+                type="radio"
+                name="credit"
+                value="10000"
+                id="credit_10000"
+                onChange={handleChangeChageCredit}
+              />
+              <label htmlFor="credit_10000">
+                <img src={creditIcon} alt="크레딧" />
+                <span>10000</span>
+              </label>
+            </li>
           </CreditChargeList>
         </div>
 
@@ -147,6 +171,7 @@ const ChargeModal = (props) => {
             onClick={() => {
               handleCreditPlus(chargeCredit);
               setTimeout(() => {
+                setChargeCredit(0);
                 closeModal();
               }, 100);
             }}

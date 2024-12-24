@@ -22,7 +22,6 @@ const IdolStyle = styled.div`
     padding-top: 100%;
     overflow: hidden;
     border-radius: 999px;
-
     > .line {
       position: absolute;
       top: 0;
@@ -81,6 +80,7 @@ const IdolStyle = styled.div`
           position: absolute;
           top: 0;
           left: 0;
+          background-color: rgba(255, 255, 255, 0.9);
         }
       }
     }
@@ -108,7 +108,7 @@ const IdolStyle = styled.div`
   @media (max-width: 743px) {
     > .close {
       > img {
-        width: 22px;
+        width: 5.87vw;
       }
     }
   }

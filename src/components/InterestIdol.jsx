@@ -10,8 +10,6 @@ import { FreeMode } from 'swiper/modules';
 const Swpbox = styled.div`
   display: flex;
   margin-bottom: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   > .interestIdol_swp {
     margin: 0;
     .swiper-slide {
@@ -21,7 +19,6 @@ const Swpbox = styled.div`
 
   @media (max-width: 1200px) {
     margin-bottom: 32px;
-    padding-bottom: 32px;
   }
 
   @media (max-width: 743px) {
@@ -29,8 +26,9 @@ const Swpbox = styled.div`
     margin-left: -24px;
     > .interestIdol_swp {
       padding-left: 38px;
+      padding-right: 38px;
       .swiper-slide {
-        width: 70px;
+        width: 18.67vw;
       }
     }
   }

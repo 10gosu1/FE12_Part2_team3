@@ -8,6 +8,8 @@ import plus from './../assets/mypage/plus.svg';
 import 'swiper/css';
 import 'swiper/css/grid';
 import 'swiper/css/navigation';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import { Grid, Navigation } from 'swiper/modules';
 
@@ -77,27 +79,9 @@ const Swpbox = styled.div`
 `;
 
 const AddBtn = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 255px;
-  height: 48px;
   margin: 48px auto 0;
-  border-radius: 999px;
-  background: linear-gradient(
-    91deg,
-    var(--coralpink) 3.33%,
-    var(--hotpink) 99.37%
-  );
-  transition: all 0.2s;
-  &:hover {
-    background: linear-gradient(
-      91deg,
-      var(--coralpink) 3.33%,
-      var(--hotpink) 99.37%
-    );
-    opacity: 0.8;
-  }
+  font-size: 16px;
   > img {
     margin-right: 8px;
   }
@@ -110,6 +94,7 @@ const InterestIdolAdd = ({
   data,
   handleAddIdol,
   loading,
+  error,
   handleIdolCheck,
   activeData,
 }) => {
@@ -166,9 +151,59 @@ const InterestIdolAdd = ({
           </Swiper>
         </Swpbox>
       ) : (
-        <div style={{ color: 'white' }}>Loading</div>
+        <Swpbox>
+          <Swiper
+            slidesPerView={3}
+            spaceBetween={17}
+            grid={{
+              rows: 2,
+            }}
+            breakpoints={{
+              743: {
+                slidesPerView: 4,
+                spaceBetween: 24,
+                grid: { rows: 2 },
+              },
+              1200: {
+                slidesPerView: 8,
+                spaceBetween: 24,
+                grid: { rows: 2 },
+              },
+            }}
+            modules={[Grid]}
+            className="interestIdolAdd_swp"
+          >
+            {data.map((item) => (
+              <SwiperSlide key={item.id}>
+                <Skeleton
+                  circle={true}
+                  style={{
+                    height: '0px',
+                    width: '100%',
+                    paddingTop: '100%',
+                    opacity: '0.9',
+                  }}
+                />
+                <Skeleton
+                  style={{
+                    width: '45px',
+                    margin: '5px 0 0',
+                    opacity: '0.9',
+                  }}
+                />
+                <Skeleton
+                  style={{
+                    width: '100px',
+                    opacity: '0.9',
+                  }}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </Swpbox>
       )}
-      <AddBtn onClick={handleAddIdol}>
+
+      <AddBtn className="btn lg radius" onClick={handleAddIdol}>
         <img src={plus} alt="추가하기" />
         추가하기
       </AddBtn>
