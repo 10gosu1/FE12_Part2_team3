@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import styled from 'styled-components';
-import VoteModal from './VoteModal.jsx';
-import ViewMoreModal from './ViewMoreModal.jsx';
-import useChartApi from '../hooks/useChartApi.jsx';
-import { motion } from 'framer-motion';
-import classNames from 'classnames';
+import { CreditContextValue, CreditContextAction } from '../App';
+import useChartApi from '../hooks/useChartApi';
+import postVotes from '../hooks/postVotes';
 
-const FEMALE = 'female'; // FEMALE 상수 정의
-const MALE = 'male'; // MALE 상수 정의 (필요한 경우)
+const FEMALE = 'female';
+const MALE = 'male';
 
 const ChartContainer = styled.div`
   padding: 40px 0;
@@ -26,109 +24,84 @@ const Header = styled.div`
   align-items: center;
   margin-bottom: 24px;
   width: 100%;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
 `;
 
 const Title = styled.h2`
   font-size: 24px;
   font-weight: bold;
-  white-space: nowrap;
-  margin-right: auto;
 `;
 
 const VoteButton = styled.button`
   background-color: #282a2c;
   color: #fff;
   border: none;
-  padding: 2px 16px 3px 16px;
-  border-radius: 3px 0px 0px 0px;
+  padding: 10px 20px;
+  border-radius: 5px;
   cursor: pointer;
   font-weight: bold;
-  height: 32px;
-  font-size: 14px;
-  margin-left: auto;
-  width: 128px;
+
+  &:hover {
+    background-color: #3a3c3e;
+  }
 `;
 
 const Tabs = styled.div`
   display: flex;
-  width: 100%;
-  height: 42px;
-  margin: 0 auto 24px;
+  justify-content: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #444;
+`;
 
-  > button {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background-color: #333;
-    border: none;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 18px;
-    letter-spacing: -0.17px;
-    color: #fff;
+const TabButton = styled.button`
+  flex: 1;
+  padding: 10px;
+  background: ${(props) => (props.active ? '#02000e' : '#333')};
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  border-bottom: ${(props) => (props.active ? '3px solid #fff' : 'none')};
 
-    &.current {
-      background-color: #02000e;
-      color: #ffffff;
-      border-bottom: 2px solid #ffffff;
-    }
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
+  &:hover {
+    background-color: #444;
   }
 `;
 
 const ChartList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  width: 100%;
-  box-sizing: border-box;
-
-  li:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 8px;
-  }
-
-  @media (max-width: 1200px) {
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  @media (max-width: 743px) {
-    flex-direction: column;
-    gap: 8px;
-  }
+  padding: 0;
+  list-style: none;
 `;
 
 const ChartItem = styled.li`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: calc(50% - 10px); /* 한 줄에 두 개 */
   padding: 16px;
-  background-color: #02000e;
+  background: #02000e;
   border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-  position: relative;
 `;
 
 const ArtistInfoContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 10px;
 `;
 
 const ArtistImageWrapper = styled.div`
-  position: relative;
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #ff6b6b;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 `;
 
 const ArtistImage = styled.img`
@@ -138,104 +111,136 @@ const ArtistImage = styled.img`
   object-fit: cover;
 `;
 
-const RedCircle = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: px solid #f00;
-  border-radius: 50%;
-`;
-
-const Rank = styled.span`
+const ArtistRank = styled.span`
   font-size: 16px;
   font-weight: bold;
-  color: #f00;
+  color: #ff6b6b;
+  margin-right: 10px;
 `;
 
-const ArtistName = styled.p`
-  font-weight: 500;
+const ArtistName = styled.span`
   font-size: 16px;
-  color: #ffffffde;
+  font-weight: bold;
 `;
 
-const VoteCount = styled.p`
+const VoteCount = styled.span`
   font-size: 14px;
   color: #ccc;
-  margin-left: auto;
+`;
+
+const MoreButton = styled.button`
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #282a2c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: block;
+
+  &:hover {
+    background-color: #3a3c3e;
+  }
+`;
+
+const Loader = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  font-size: 18px;
+  color: #fff;
 `;
 
 const Chart = () => {
-  const [activeTab, setActiveTab] = useState('female');
-  const [isVoteModalOpen, setVoteModalOpen] = useState(false); // 모달 상태 추가
-  const [selectedArtist, setSelectedArtist] = useState(null);
+  const [activeTab, setActiveTab] = useState(FEMALE);
   const {
     data: chartData,
     loading,
     error,
     loadMore,
     hasMore,
+    fetchAllData,
   } = useChartApi(activeTab, 10);
+  const [showVoteModal, setShowVoteModal] = useState(false);
+  const [userCredits, setUserCredits] = useState(() => {
+    const savedCredits = localStorage.getItem('userCredits');
+    return savedCredits ? parseInt(savedCredits, 10) : 0;
+  });
 
-  const openVoteModal = (artist) => {
-    setSelectedArtist(artist); // 선택한 아티스트 설정
-    setVoteModalOpen(true); // 모달 열기
+  useEffect(() => {
+    localStorage.setItem('userCredits', userCredits);
+  }, [userCredits]);
+
+  const handleShowVoteModal = () => {
+    setShowVoteModal(true);
   };
 
-  const closeVoteModal = () => {
-    setVoteModalOpen(false); // 모달 닫기
+  const handleVoteModalClose = () => {
+    setShowVoteModal(false);
   };
+
+  const handleVoteSuccess = () => {
+    fetchAllData(); // 투표 성공 후 데이터 새로 고침
+  };
+
+  const sortedChartData = [...chartData].sort(
+    (a, b) => b.totalVotes - a.totalVotes,
+  );
 
   return (
     <ChartContainer>
       <Header>
         <Title>이달의 차트</Title>
-        <VoteButton onClick={() => setVoteModalOpen(true)}>
-          차트 투표하기
-        </VoteButton>
+        <VoteButton onClick={handleShowVoteModal}>차트 투표하기</VoteButton>
       </Header>
       <Tabs>
-        <button
-          className={classNames({ current: activeTab === 'female' })}
-          onClick={() => setActiveTab('female')}
+        <TabButton
+          active={activeTab === FEMALE}
+          onClick={() => setActiveTab(FEMALE)}
         >
           이달의 여자 아이돌
-        </button>
-        <button
-          className={classNames({ current: activeTab === 'male' })}
-          onClick={() => setActiveTab('male')}
+        </TabButton>
+        <TabButton
+          active={activeTab === MALE}
+          onClick={() => setActiveTab(MALE)}
         >
           이달의 남자 아이돌
-        </button>
+        </TabButton>
       </Tabs>
       {loading ? (
-        <p>Loading...</p>
+        <Loader>Loading...</Loader>
       ) : error ? (
-        <p>Error: {error.message}</p>
+        <div>Error: {error.message}</div>
       ) : (
-        <ChartList>
-          {chartData.map((artist, index) => (
-            <ChartItem key={artist.id}>
-              <ArtistInfoContainer>
-                <ArtistImageWrapper>
-                  <ArtistImage src={artist.imageUrl} alt={artist.name} />
-                  <RedCircle />
-                </ArtistImageWrapper>
-                <Rank>{index + 1}</Rank>
-                <ArtistName>{artist.name}</ArtistName>
-              </ArtistInfoContainer>
-              <VoteCount>{artist.votes} 표</VoteCount>
-            </ChartItem>
-          ))}
-        </ChartList>
+        <>
+          <ChartList>
+            {sortedChartData.map((artist, index) => (
+              <ChartItem key={artist.id}>
+                <ArtistInfoContainer>
+                  <ArtistRank>{index + 1}</ArtistRank>
+                  <ArtistImageWrapper>
+                    <ArtistImage
+                      src={artist.profilePicture}
+                      alt={artist.name}
+                    />
+                  </ArtistImageWrapper>
+                  <ArtistName>{artist.name}</ArtistName>
+                </ArtistInfoContainer>
+                <VoteCount>{artist.totalVotes || 0}표</VoteCount>
+              </ChartItem>
+            ))}
+          </ChartList>
+          {hasMore && <MoreButton onClick={loadMore}>더보기</MoreButton>}
+        </>
       )}
-      {hasMore && <button onClick={loadMore}>더보기</button>}
-      {isVoteModalOpen && (
+
+      {showVoteModal && (
         <VoteModal
-          idols={chartData}
-          onClose={closeVoteModal}
-          onSubmit={(id) => console.log(`${id} 투표 완료`)}
+          activeTab={activeTab}
+          onClose={handleVoteModalClose}
+          onVoteSuccess={handleVoteSuccess}
         />
       )}
     </ChartContainer>

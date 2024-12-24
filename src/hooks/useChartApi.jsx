@@ -1,90 +1,73 @@
-import React, { useState, useEffect } from 'react'; // React와 훅 임포트
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useChartApi = (gender, initPageSize = 10) => {
+const useChartApi = (gender, pageSize = 10) => {
   const API_BASE_URL = `https://fandom-k-api.vercel.app/12-3/charts`;
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cursor, setCursor] = useState(null); // nextCursor 관리
-  const [pageSize, setPageSize] = useState(initPageSize);
+  const [cursor, setCursor] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-
-  const initialVotes = {
-    female: {
-      카리나: 32,
-      원희: 6,
-      안유진: 1,
-      다현: 15,
-    },
-    male: {
-      GD: 32,
-      뷔: 28,
-      진: 25,
-      육성재: 20,
-    },
-  };
-
-  const sortDataByVotes = (idols) => {
-    return idols.sort((a, b) => b.votes - a.votes); // 투표수에 따라 정렬
-  };
 
   const fetchData = async (reset = false) => {
     try {
       setLoading(true);
-
       const params = new URLSearchParams({
-        gender,
         pageSize,
-        ...(cursor && !reset ? { cursor } : {}), // reset 시 cursor를 포함하지 않음
+        ...(gender && { gender }),
+        ...(cursor && !reset ? { cursor } : {}),
       }).toString();
 
-      const url = `${API_BASE_URL}/${gender}?${params}`;
-      console.log('Fetching data with URL:', url);
+      const response = await axios.get(`${API_BASE_URL}/${gender}?${params}`);
+      const fetchedData = response.data.idols;
 
-      const response = await axios.get(url);
-      console.log('API Response:', response.data);
-
-      const idols = response.data.idols.map((idol) => ({
-        ...idol,
-        imageUrl: idol.profilePicture,
-        votes: initialVotes[gender][idol.name] || 0,
-      }));
-
-      setData((prevData) => {
-        const newData = reset ? idols : [...prevData, ...idols];
-        return sortDataByVotes(newData); // 새 데이터 포함하여 정렬
-      });
-
-      setCursor(response.data.nextCursor || null); // nextCursor 업데이트
-      setHasMore(Boolean(response.data.nextCursor)); // 다음 데이터 존재 여부 확인
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setError(error);
+      setData((prevData) =>
+        reset ? fetchedData : [...prevData, ...fetchedData],
+      );
+      setCursor(response.data.nextCursor || null);
+      setHasMore(!!response.data.nextCursor);
+    } catch (err) {
+      setError(err);
+    } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    setCursor(null); // gender 변경 시 cursor 초기화
-    setData([]); // 이전 데이터 초기화
-    setHasMore(true); // 다음 페이지 존재 여부 초기화
-    fetchData(true); // reset=true로 첫 페이지 데이터 가져오기
-  }, [gender]); // gender가 변경될 때마다 실행
-
-  useEffect(() => {
-    // 현재 데이터를 항상 투표순으로 정렬
-    setData((prevData) => sortDataByVotes(prevData));
-  }, [data]); // 데이터가 변경될 때마다 정렬 적용
+    fetchData(true); // 성별 변경 시 초기화 후 로드
+  }, [gender]);
 
   const loadMore = () => {
-    if (cursor) {
-      fetchData(); // 다음 데이터 요청
+    if (hasMore) fetchData();
+  };
+
+  const fetchAllData = async () => {
+    try {
+      const params = new URLSearchParams({
+        pageSize: 1000, // 최대 크기로 모든 데이터 요청
+        ...(gender && { gender }),
+      }).toString();
+
+      const response = await axios.get(`${API_BASE_URL}/${gender}?${params}`);
+      return response.data.idols || []; // idols 배열 반환
+    } catch (error) {
+      console.error('데이터 로드 실패:', error);
+      return [];
     }
   };
 
-  return { data, loading, error, loadMore, hasMore };
+  const updateVote = async (idolId) => {
+    try {
+      await axios.post(`https://fandom-k-api.vercel.app/12-3/vote`, {
+        idolId,
+      });
+      await fetchData(true); // 투표 후 데이터 새로고침
+    } catch (error) {
+      console.error('투표 업데이트 실패:', error);
+    }
+  };
+
+  return { data, loading, error, loadMore, hasMore, fetchAllData, updateVote };
 };
 
 export default useChartApi;
