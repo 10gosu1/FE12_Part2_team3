@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import GlobalStyle from '../styles/global';
 import DonationSlider from './DonationSlider';
 import Spinner from '.././assets/waiting/spinner.gif';
+import ErrorBox from './ErrorBox';
 
 const Title = styled.h1`
   font-size: 24px;
@@ -53,7 +54,7 @@ const DonationList = () => {
       <img src={Spinner} alt="로딩 중..." />
     </SpinnerContainer>
   );
-  if (error) return <div>정보를 불러오는 데 실패했습니다. 다시 시도해주세요!😥 </div>;
+  if (error) return <ErrorBox />;
   if (donations.length === 0) return <div>데이터가 없습니다.</div>;
 
   return (
