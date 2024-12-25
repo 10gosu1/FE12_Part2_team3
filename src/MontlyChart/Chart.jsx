@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import useChartApi from '../hooks/useChartApi';
 import VoteModal from './VoteModal.jsx';
 import chartImage from '../assets/waiting/Chart.png';
+import ErrorBox from '../components/ErrorBox.jsx';
 
 const FEMALE = 'female';
 const MALE = 'male';
@@ -65,14 +66,14 @@ const Tabs = styled.div`
 const TabButton = styled.button`
   flex: 1;
   padding: 10px;
-  background: ${(props) => (props.active ? '#02000e' : '#333')};
+  background: ${(props) => (props.active ? '#333' : '#02000e')};
   color: #fff;
   border: none;
   cursor: pointer;
   text-align: center;
   font-size: 16px;
   font-weight: bold;
-  border-bottom: ${(props) => (props.active ? '3px solid #fff' : 'none')};
+  border-bottom: ${(props) => (props.active ? '1px solid #fff' : 'none')};
 
   &:hover {
     background-color: #444;
@@ -82,7 +83,7 @@ const TabButton = styled.button`
 const ChartList = styled.ul`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
-  gap: 20px;
+  gap: 0px 20px;
   padding: 0;
   list-style: none;
 
@@ -97,7 +98,6 @@ const ChartItem = styled.li`
   justify-content: space-between;
   padding: 16px;
   background: #02000e;
-  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1019607843);
 `;
@@ -250,7 +250,7 @@ const Chart = () => {
       {loading ? (
         <Loader>Loading...</Loader>
       ) : error ? (
-        <div>Error: {error.message}</div>
+        <ErrorBox />
       ) : (
         <>
           <ChartList>

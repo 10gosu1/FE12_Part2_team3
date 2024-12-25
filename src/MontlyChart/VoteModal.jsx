@@ -8,6 +8,8 @@ import checkOutIcon from '../assets/waiting/radio.svg';
 import iconCheck from '../assets/mypage/icon_check.svg';
 import LackModal from '../modal/LackModal';
 import { useSwipeable } from 'react-swipeable';
+import ErrorBox from '../components/ErrorBox';
+import { toast } from 'react-toastify';
 
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -66,7 +68,7 @@ const ModalContent = styled.div`
   overflow: hidden;
   position: relative;
 
-  @media (max-width: 769px) {
+  @media (max-width: 525px) {
     width: 100%;
     height: 100%;
     background: linear-gradient(271.36deg, #02000e -9.84%, #121212 107.18%);
@@ -86,7 +88,7 @@ const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 769px) {
+  @media (max-width: 375px) {
     padding: 20px;
     text-align: center;
     background: none;
@@ -124,7 +126,7 @@ const ModalFooter = styled.div`
   padding: 20px;
   border-top: 1px solid #444;
 
-  @media (max-width: 769px) {
+  @media (max-width: 375px) {
     display: flex;
     background: none;
     text-align: center;
@@ -137,6 +139,10 @@ const ModalFooter = styled.div`
 const ModalTitle = styled.h3`
   font-size: 18px;
   font-weight: 500;
+
+  @media (max-width: 416px) {
+    font-size: 12px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -147,7 +153,7 @@ const CloseButton = styled.button`
   font-size: 30px;
   color: #fff;
   cursor: pointer;
-  @media (max-width: 769px) {
+  @media (max-width: 375px) {
     display: none;
   }
 `;
@@ -280,7 +286,7 @@ const VoteButton = styled.button`
     cursor: not-allowed;
   }
 
-  @media (max-width: 769px) {
+  @media (max-width: 375px) {
     display: flex;
     justtfy-content: center;
     align-items: center;
@@ -330,7 +336,7 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
     try {
       await postVotes(selectedIdol.id); // 투표 API 호출
       handleCreditMinus(1000); // 크레딧 차감
-      alert(`${selectedIdol.name}에게 투표 완료!`);
+      toast(`${selectedIdol.name}에게 투표 완료!`);
       onVoteSuccess(); // updateVote 함수 호출
       onClose();
     } catch (error) {
