@@ -11,6 +11,7 @@ import GlobalStyle from './styles/global';
 
 export const CreditContextValue = createContext();
 export const CreditContextAction = createContext();
+export const HeaderVisibilityContext = createContext(); // Header 상태 관리 Context 추가
 
 function App() {
   const [myCredit, setMyCredit] = useState(() => {
@@ -20,6 +21,8 @@ function App() {
     }
     return 3000;
   });
+
+  const [showHeader, setShowHeader] = useState(true); // Header 표시 여부 관리
 
   const handleCreditPlus = (credit) => {
     setMyCredit((prev) => prev + credit);
@@ -39,34 +42,36 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      {location.pathname !== '/' && <Header />}
+      {location.pathname !== '/' && showHeader && <Header />}
 
-      <CreditContextValue.Provider value={myCredit}>
-        <CreditContextAction.Provider
-          value={{ handleCreditPlus, handleCreditMinus, setMyCredit }}
-        >
-          <div className="inner">
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/list" element={<List />} />
-              <Route path="/mypage" element={<Mypage />} />
-            </Routes>
-          </div>
-          <ToastContainer
-            position="top-center"
-            autoClose={500}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-            transition={Flip}
-          />
-        </CreditContextAction.Provider>
-      </CreditContextValue.Provider>
+      <HeaderVisibilityContext.Provider value={{ showHeader, setShowHeader }}>
+        <CreditContextValue.Provider value={myCredit}>
+          <CreditContextAction.Provider
+            value={{ handleCreditPlus, handleCreditMinus, setMyCredit }}
+          >
+            <div className="inner">
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/list" element={<List />} />
+                <Route path="/mypage" element={<Mypage />} />
+              </Routes>
+            </div>
+            <ToastContainer
+              position="top-center"
+              autoClose={500}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="dark"
+              transition={Flip}
+            />
+          </CreditContextAction.Provider>
+        </CreditContextValue.Provider>
+      </HeaderVisibilityContext.Provider>
     </>
   );
 }

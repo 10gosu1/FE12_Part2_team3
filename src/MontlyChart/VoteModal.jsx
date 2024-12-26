@@ -10,6 +10,8 @@ import LackModal from '../modal/LackModal';
 import { useSwipeable } from 'react-swipeable';
 import ErrorBox from '../components/ErrorBox';
 import { toast } from 'react-toastify';
+import ReactDOM from 'react-dom';
+import { HeaderVisibilityContext } from '../App';
 
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -89,11 +91,8 @@ const ModalHeader = styled.div`
   justify-content: space-between;
 
   @media (max-width: 375px) {
-    padding: 20px;
-    text-align: center;
-    background: none;
-    font-size: 18px;
-    color: white;
+    justify-content: center; /* 중앙 정렬 */
+    padding: 10px 20px;
   }
 `;
 
@@ -136,12 +135,32 @@ const ModalFooter = styled.div`
   }
 `;
 
+const BackButton = styled.button`
+  position: absolute;
+  left: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+
+  @media (min-width: 376px) {
+    display: none; /* 375px 이상에서는 숨김 */
+  }
+`;
+
 const ModalTitle = styled.h3`
   font-size: 18px;
   font-weight: 500;
 
   @media (max-width: 416px) {
     font-size: 12px;
+  }
+
+  @media (max-width: 375px) {
+    font-size: 16px;
+    text-align: center;
+    color: white;
   }
 `;
 
@@ -311,6 +330,35 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
   const { data: idols, fetchAllData } = useChartApi(activeTab, 1000);
   const userCredits = useContext(CreditContextValue);
   const { handleCreditMinus } = useContext(CreditContextAction);
+  const { setShowHeader } = useContext(HeaderVisibilityContext); // Header 제어 함수 가져오기
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 374) {
+        setShowHeader(false); // Header 숨기기
+      } else {
+        setShowHeader(true); // Header 표시
+      }
+    };
+
+    handleResize(); // 초기 실행
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      setShowHeader(true); // 모달 닫힐 때 Header 복원
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [setShowHeader]);
+
+  useEffect(() => {
+    if (window.innerWidth <= 374) {
+      setShowHeader(false); // 모달 열릴 때 조건 확인 후 Header 숨기기
+    }
+
+    return () => {
+      setShowHeader(true); // 모달 닫힐 때 Header 복원
+    };
+  }, [setShowHeader]);
 
   useEffect(() => {
     fetchAllData();
@@ -376,11 +424,12 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
     trackMouse: false,
   });
 
-  return (
+  return ReactDOM.createPortal(
     <ModalBackdrop {...swipeHandlers} onClick={handleBackdropClick}>
       <ModalContainer>
         <ModalContent>
           <ModalHeader>
+            <BackButton onClick={onClose}>&larr;</BackButton>
             <ModalTitle>
               이달의 {activeTab === 'female' ? '여자' : '남자'} 아이돌
             </ModalTitle>
@@ -441,7 +490,8 @@ const VoteModal = ({ activeTab, onClose, onVoteSuccess }) => {
           </ModalFooter>
         </ModalContent>
       </ModalContainer>
-    </ModalBackdrop>
+    </ModalBackdrop>,
+    document.body,
   );
 };
 
